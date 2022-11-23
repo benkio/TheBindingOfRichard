@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, reopened]
+  push:
+    branches:
+        - "**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: ormolu-action
+      uses: mrkkrp/ormolu-action@v7
