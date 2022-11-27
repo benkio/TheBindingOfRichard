@@ -1,0 +1,64 @@
+* The Binding of Richard - Roguelike on Richard Benson
+** Extra
+
+ - 11 lifes
+ - When you die the death appears (scream face)
+ - Item Store infra levels
+ - Soundtracks: Feelings & pari e dispari
+ - Use Richard's quotes to open loots or access secret rooms etc etc
+
+** Pets
+
+Extra protection, extra damage on close range, gathering items around
+ - Gianni Neri: ?
+ - Gianguido: ?
+ - Luca di Noia: ?
+ - Angelo Carpenelli: ?
+
+** Power-up/down
+
+ - "Un Pollo": Restore life
+ - Mandragola: hypnotic effects. inverted controls! up<->down, left<->right
+ - Fico Sacro: increase life
+ - Betulla: Invulnerability for 30s
+ - Canfora: flashy enemies (appears and disappears)
+ - Big Money: money to use in the shop
+ - Cocktail Micidiale: ?
+
+** Tech References
+*** Snake in Haskell
+
+https://www.youtube.com/watch?v=s0QMEqJn8kw
+
+** Levels
+
+ - Storia del signor gionz
+ - Battesimo di cristo (nani as enemy)
+ - Via Zara (Prostitute as enemies)
+ - Livello dove la morte ti cammina dietro, se ti tocca, muori. Si velocizza ad ogni stanza
+
+** Weapons
+
+ - 5 dita: simple punch
+ - Bastone Infernale: stick, swing
+ - Ossa dei morti: bullets
+ - Carillon Infernale: AoE clears enemies in close range, limited usages per level
+
+** Enemies
+*** Bosses
+
+ - Steve Vai
+ - Il Gaio in Giallo
+ - Marylin Manson
+ - Final Boss: "La Vita" (as game of life enemy)
+
+*** Standard
+
+ define stats and abilities
+ - Cobelini
+ - Coboldi
+ - Elfi
+ - Eoni
+ - Nani
+ - Prostitute
+ - Fans che gli tirano la roba
