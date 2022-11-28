@@ -6,21 +6,21 @@ module Lib where
 
 import Control.Concurrent (threadDelay)
 import Control.Monad
+import Controls (defaultControls)
+import Data.Maybe (fromJust, isNothing)
 import Data.Sequence (Seq, (|>))
 import qualified Data.Sequence as S
 import Foreign.C.Types
+import GameState (GameState (..), initialGameState, transformGameState)
 import SDL
 import System.Random
-import GameState(GameState(..), initialGameState, transformGameState)
-import Controls (defaultControls)
-import Data.Maybe (isNothing, fromJust)
 
 run :: IO ()
 run = do
   initializeAll
   window <- createWindow "TheBindingOfRichard" defaultWindow {windowInitialSize = V2 1200 800}
   renderer <- createRenderer window (-1) defaultRenderer
-  appLoop renderer  initialGameState
+  appLoop renderer initialGameState
 
 appLoop :: Renderer -> GameState -> IO ()
 appLoop renderer state = do
