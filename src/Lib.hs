@@ -26,11 +26,14 @@ appLoop :: Renderer -> GameState -> IO ()
 appLoop renderer state = do
   events <- pollEvents
   let maybeNewState = transformGameState events defaultControls state
-  unless (isNothing maybeNewState) $ do
-    let newState = fromJust maybeNewState
-    windowToBlack renderer
-    rendererDrawColor renderer $= V4 0 0 255 255
-    fillRect renderer (Just (Rectangle (P.pointToSDLPoint (position newState)) (V2 20 20)))
-    present renderer
-    threadDelay 30000
-    appLoop renderer newState
+  maybe
+    (return ())
+    ( \newState -> do
+        windowToBlack renderer
+        rendererDrawColor renderer $= V4 0 0 255 255
+        fillRect renderer (Just (Rectangle (P.pointToSDLPoint (position newState)) (V2 20 20)))
+        present renderer
+        threadDelay 30000
+        appLoop renderer newState
+    )
+    maybeNewState
