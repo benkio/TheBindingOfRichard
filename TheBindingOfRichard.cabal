@@ -27,6 +27,8 @@ library
       Controls
       GameEvent
       GameState
+      Graphics.Point
+      Graphics.Window
       Lib
       Move
   other-modules:

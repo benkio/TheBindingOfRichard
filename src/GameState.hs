@@ -16,9 +16,13 @@ data GameState = GameState
 initialGameState :: GameState
 initialGameState = GameState {x = 0, y = 0}
 
-transformGameState' :: GameState -> GameEvent -> Maybe GameState
-transformGameState' gs (GE move) = Just $ gs {x = x gs + moveToValueX move, y = y gs + moveToValueY move}
-transformGameState' _ Quit = Nothing
+transformGameState'' :: GameState -> GameEvent -> Maybe GameState
+transformGameState'' gs (GE move) = Just $ gs {x = x gs + moveToValueX move, y = y gs + moveToValueY move}
+transformGameState'' _ Quit = Nothing
 
-transformGameState :: Event -> Controls -> GameState -> Maybe GameState
-transformGameState ev controls gs = transformGameState' gs $ toGameEvent ev controls
+transformGameState' :: Event -> Controls -> GameState -> Maybe GameState
+transformGameState' ev controls gs = transformGameState'' gs $ toGameEvent ev controls
+
+transformGameState :: [Event] -> Controls -> GameState -> Maybe GameState
+transformGameState evs controls gs =
+  foldl (\mst e -> mst >>= \st -> transformGameState' e controls st) (Just gs) evs

@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Lib where
@@ -12,26 +11,26 @@ import Data.Sequence (Seq, (|>))
 import qualified Data.Sequence as S
 import Foreign.C.Types
 import GameState (GameState (..), initialGameState, transformGameState)
+import qualified Graphics.Point as P (Point (..), pointToSDLPoint)
+import Graphics.Window (initializeWindow, windowToBlack)
 import SDL
 import System.Random
 
 run :: IO ()
 run = do
   initializeAll
-  window <- createWindow "TheBindingOfRichard" defaultWindow {windowInitialSize = V2 1200 800}
-  renderer <- createRenderer window (-1) defaultRenderer
+  (window, renderer) <- initializeWindow
   appLoop renderer initialGameState
 
 appLoop :: Renderer -> GameState -> IO ()
 appLoop renderer state = do
   events <- pollEvents
-  let maybeNewState = foldl (\mst e -> mst >>= \st -> transformGameState e defaultControls st) (Just state) events
+  let maybeNewState = transformGameState events defaultControls state
   unless (isNothing maybeNewState) $ do
     let newState = fromJust maybeNewState
-    rendererDrawColor renderer $= V4 0 0 0 255
-    clear renderer
+    windowToBlack renderer
     rendererDrawColor renderer $= V4 0 0 255 255
-    fillRect renderer (Just (Rectangle (P $ V2 ((x newState) * 20) ((y newState) * 20)) (V2 20 20)))
+    fillRect renderer (Just (Rectangle (P.pointToSDLPoint (P.Point {x = x newState, y = y newState})) (V2 20 20)))
     present renderer
     threadDelay 100000
     appLoop renderer newState
