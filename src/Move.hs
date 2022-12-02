@@ -13,7 +13,7 @@ data Move
   | Rest
 
 stepSize :: CInt
-stepSize = 1
+stepSize = 10
 
 moveToValueX :: Move -> CInt
 moveToValueX Move.Left = -stepSize

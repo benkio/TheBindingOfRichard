@@ -3,21 +3,22 @@ module GameState (GameState (..), initialGameState, transformGameState) where
 import Controls (Controls (..))
 import Foreign.C.Types (CInt)
 import GameEvent (GameEvent (..), toGameEvent)
+import Graphics.Point (Point (..))
 import Move (moveToValueX, moveToValueY)
 import SDL (Event, keysymKeycode)
 import SDL.Event (EventPayload (..), InputMotion (Pressed), eventPayload, keyboardEventKeyMotion, keyboardEventKeysym)
 import SDL.Input.Keyboard.Codes
 
 data GameState = GameState
-  { x :: CInt,
-    y :: CInt
+  { position :: Point
   }
 
 initialGameState :: GameState
-initialGameState = GameState {x = 0, y = 0}
+initialGameState = GameState {position = Point {x = 0, y = 0}}
 
+--TODO: Use Lenses!
 transformGameState'' :: GameState -> GameEvent -> Maybe GameState
-transformGameState'' gs (GE move) = Just $ gs {x = x gs + moveToValueX move, y = y gs + moveToValueY move}
+transformGameState'' gs (GE move) = Just $ gs {position = ((\p -> p {x = x p + moveToValueX move, y = y p + moveToValueY move}) . position) gs} --{x = x gs + moveToValueX move, y = y gs + moveToValueY move}
 transformGameState'' _ Quit = Nothing
 
 transformGameState' :: Event -> Controls -> GameState -> Maybe GameState

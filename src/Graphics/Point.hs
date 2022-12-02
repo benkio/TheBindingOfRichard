@@ -7,7 +7,7 @@ data Point = Point
   { x :: CInt,
     y :: CInt
   }
+  deriving (Show)
 
--- TODO: Swap x,y to point in gamestate. extract the 20 values away.
 pointToSDLPoint :: Point -> Sdl.Point Sdl.V2 CInt
-pointToSDLPoint Point {x = px, y = py} = Sdl.P $ Sdl.V2 (px * 20) (py * 20)
+pointToSDLPoint Point {x = px, y = py} = Sdl.P $ Sdl.V2 px py

@@ -30,7 +30,7 @@ appLoop renderer state = do
     let newState = fromJust maybeNewState
     windowToBlack renderer
     rendererDrawColor renderer $= V4 0 0 255 255
-    fillRect renderer (Just (Rectangle (P.pointToSDLPoint (P.Point {x = x newState, y = y newState})) (V2 20 20)))
+    fillRect renderer (Just (Rectangle (P.pointToSDLPoint (position newState)) (V2 20 20)))
     present renderer
-    threadDelay 100000
+    threadDelay 30000
     appLoop renderer newState
