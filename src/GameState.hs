@@ -16,9 +16,9 @@ data GameState = GameState
 initialGameState :: GameState
 initialGameState = GameState {position = Point {x = 0, y = 0}}
 
---TODO: Use Lenses!
+-- TODO: Use Lenses!
 transformGameState'' :: GameState -> GameEvent -> Maybe GameState
-transformGameState'' gs (GE move) = Just $ gs {position = ((\p -> p {x = x p + moveToValueX move, y = y p + moveToValueY move}) . position) gs} --{x = x gs + moveToValueX move, y = y gs + moveToValueY move}
+transformGameState'' gs (GE move) = Just $ gs {position = ((\p -> p {x = x p + moveToValueX move, y = y p + moveToValueY move}) . position) gs}
 transformGameState'' _ Quit = Nothing
 
 transformGameState' :: Event -> Controls -> GameState -> Maybe GameState
