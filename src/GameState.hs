@@ -1,13 +1,10 @@
 module GameState (GameState (..), initialGameState, transformGameState) where
 
 import Controls (Controls (..))
-import Foreign.C.Types (CInt)
 import GameEvent (GameEvent (..), toGameEvent)
 import Graphics.Point (Point (..))
 import Move (moveToValueX, moveToValueY)
-import SDL (Event, keysymKeycode)
-import SDL.Event (EventPayload (..), InputMotion (Pressed), eventPayload, keyboardEventKeyMotion, keyboardEventKeysym)
-import SDL.Input.Keyboard.Codes
+import SDL (Event)
 
 data GameState = GameState
   { position :: Point

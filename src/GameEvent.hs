@@ -1,7 +1,6 @@
 module GameEvent (GameEvent (..), toGameEvent) where
 
 import Controls (Controls (..))
-import Foreign.C.Types (CInt)
 import Move (Move (..))
 import SDL (Event, keysymKeycode)
 import SDL.Event (EventPayload (..), InputMotion (Pressed), eventPayload, keyboardEventKeyMotion, keyboardEventKeysym)

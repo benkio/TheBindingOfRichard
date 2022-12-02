@@ -18,11 +18,38 @@ extra-source-files:
 # common to point users to the README.md file.
 description:         Please see the README on GitHub at <https://github.com/benkio/TheBindingOfRichard#readme>
 
+ghc-options:
+  - -threaded
+  - -rtsopts
+  - -with-rtsopts=-N
+  - -fwarn-tabs                      # Warn on tabs (spaces are better)
+  - -Weverything                     # Enable all warnings with -Weverything, then
+                                     # disable the ones we don’t care about
+  - -Wno-missing-exported-signatures # Turns off the more strict -Wmissing-signatures.
+                                     # See https://ghc.haskell.org/trac/ghc/ticket/14794#ticket
+  - -Wno-missing-import-lists        # Requires explicit imports of _every_ function
+                                     # (e.g. ‘$’); too strict
+  - -Wno-missed-specialisations      # When GHC can’t specialize a polymorphic
+                                     # function. No big deal and requires fixing
+                                     # underlying libraries to solve.
+  - -Wno-all-missed-specialisations  # See missed-specialisations
+  - -Wno-unsafe                      # Don’t use Safe Haskell warnings
+  - -Wno-safe                        # Don’t use Safe Haskell warnings
+  - -Wno-implicit-prelude
+  - -Wno-missing-safe-haskell-mode
+  - -Wno-missing-kind-signatures
+  - -Wno-prepositive-qualified-module
+  - -Wno-missing-deriving-strategies
+  - -Wno-missing-local-signatures    # Warning for polymorphic local bindings; nothing
+                                     # wrong with those.
+  - -Wno-monomorphism-restriction    # Don’t warn if the monomorphism restriction is used
+  - -Wno-unused-do-bind              # Allow one-line do blocks
+
 dependencies:
 - base >= 4.7 && < 5
-- containers
-- random
 - sdl2
+- containers
+# - random
 
 library:
   source-dirs: src
@@ -31,10 +58,6 @@ executables:
   TheBindingOfRichard-exe:
     main:                Main.hs
     source-dirs:         app
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
     dependencies:
     - TheBindingOfRichard
 
@@ -42,9 +65,5 @@ tests:
   TheBindingOfRichard-test:
     main:                Spec.hs
     source-dirs:         test
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
     dependencies:
     - TheBindingOfRichard

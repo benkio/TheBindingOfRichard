@@ -1,25 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Lib where
+module Lib (run) where
 
 import Control.Concurrent (threadDelay)
-import Control.Monad
 import Controls (defaultControls)
-import Data.Maybe (fromJust, isNothing)
-import Data.Sequence (Seq, (|>))
-import qualified Data.Sequence as S
-import Foreign.C.Types
 import GameState (GameState (..), initialGameState, transformGameState)
-import qualified Graphics.Point as P (Point (..), pointToSDLPoint)
+import Graphics.Point (pointToSDLPoint)
 import Graphics.Window (initializeWindow, windowToBlack)
 import SDL
-import System.Random
 
 run :: IO ()
 run = do
   initializeAll
-  (window, renderer) <- initializeWindow
+  (_, renderer) <- initializeWindow
   appLoop renderer initialGameState
 
 appLoop :: Renderer -> GameState -> IO ()
@@ -31,7 +25,7 @@ appLoop renderer state = do
     ( \newState -> do
         windowToBlack renderer
         rendererDrawColor renderer $= V4 0 0 255 255
-        fillRect renderer (Just (Rectangle (P.pointToSDLPoint (position newState)) (V2 20 20)))
+        fillRect renderer (Just (Rectangle (pointToSDLPoint (position newState)) (V2 20 20)))
         present renderer
         threadDelay 30000
         appLoop renderer newState
