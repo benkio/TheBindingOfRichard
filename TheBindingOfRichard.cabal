@@ -27,7 +27,9 @@ library
       Controls
       GameEvent
       GameState
+      Graphics.Color
       Graphics.Point
+      Graphics.Rectangle
       Graphics.Window
       Lib
       Move

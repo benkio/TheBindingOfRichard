@@ -4,8 +4,8 @@ import Foreign.C.Types (CInt)
 import qualified SDL.Vect as Sdl (Point (..), V2 (..))
 
 data Point = Point
-  { x :: CInt,
-    y :: CInt
+  { x :: !CInt,
+    y :: !CInt
   }
   deriving (Show)
 

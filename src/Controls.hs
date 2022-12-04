@@ -7,7 +7,7 @@ data Controls = Controls
     down :: Keycode,
     left :: Keycode,
     right :: Keycode,
-    quit :: Keycode
+    quit :: Keycode -- TODO: close on window X
   }
 
 defaultControls :: Controls

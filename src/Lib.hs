@@ -6,9 +6,10 @@ module Lib (run) where
 import Control.Concurrent (threadDelay)
 import Controls (defaultControls)
 import GameState (GameState (..), initialGameState, transformGameState)
-import Graphics.Point (pointToSDLPoint)
+import Graphics.Color (Color (..))
+import Graphics.Rectangle (Rectangle (..), drawRectangle)
 import Graphics.Window (initializeWindow, windowToBlack)
-import SDL
+import SDL (Renderer, initializeAll, pollEvents, present)
 
 run :: IO ()
 run = do
@@ -24,10 +25,9 @@ appLoop renderer state = do
     (return ())
     ( \newState -> do
         windowToBlack renderer
-        rendererDrawColor renderer $= V4 0 0 255 255
-        fillRect renderer (Just (Rectangle (pointToSDLPoint (position newState)) (V2 20 20)))
+        drawRectangle renderer (Color {red = 0, green = 0, blue = 255, alpha = 255}) Rectangle {topLeftCorner = (position newState), width = 20, height = 20}
         present renderer
-        threadDelay 30000
+        threadDelay 30000 -- TODO: Set this dinamically based on the display refresh rate. https://hackage.haskell.org/package/sdl2-2.5.4.0/docs/SDL-Video.html#v:displayModeRefreshRate
         appLoop renderer newState
     )
     maybeNewState
