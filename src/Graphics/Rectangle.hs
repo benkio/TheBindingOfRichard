@@ -21,5 +21,5 @@ rectangleToSDLRectangle Rectangle {topLeftCorner = tlc, height = h, width = w} =
 
 drawRectangle :: Renderer -> Color -> Rectangle -> IO ()
 drawRectangle renderer color rectangle = do
-  rendererDrawColor renderer $= (colorToV4 color)
+  rendererDrawColor renderer $= colorToV4 color
   SdlVideo.fillRect renderer ((Just . rectangleToSDLRectangle) rectangle)

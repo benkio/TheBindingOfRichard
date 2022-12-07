@@ -1,18 +1,19 @@
 module GameState (GameState (..), initialGameState, transformGameState) where
 
 import Controls (Controls (..))
+import Data.Functor ((<&>))
 import GameEvent (GameEvent (..), toGameEvent)
 import Graphics.Point (Point (..))
-import Graphics.Window (windowHeight, windowWidth)
+import Graphics.Window (windowSize)
 import Move (moveToValueX, moveToValueY)
 import SDL (Event)
 
-data GameState = GameState
+newtype GameState = GameState
   { position :: !Point
   }
 
-initialGameState :: GameState
-initialGameState = GameState {position = Point {x = (windowWidth `div` 2), y = (windowHeight `div` 2)}}
+initialGameState :: IO GameState
+initialGameState = windowSize <&> \(ww, wh) -> GameState {position = Point {x = ww `div` 2, y = wh `div` 2}}
 
 -- TODO: Use Lenses!
 transformGameState'' :: GameState -> GameEvent -> Maybe GameState
