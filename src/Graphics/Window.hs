@@ -9,15 +9,6 @@ import SDL.Vect (V2 (..), V4 (..))
 import SDL.Video (Renderer, Window, clear, createRenderer, createWindow, defaultWindow, displayBoundsSize, getDisplays, rendererDrawColor, windowInitialSize)
 import SDL.Video.Renderer (defaultRenderer)
 
---import Control.Exception (throwIO)
-
--- TODO: Set these dinamically from the Display at index 0 https://hackage.haskell.org/package/sdl2-2.5.4.0/docs/SDL-Video.html#v:displayBoundsSize
--- windowHeight :: CInt
--- windowHeight = 720
-
--- windowWidth :: CInt
--- windowWidth = 1280
-
 windowSize :: IO (CInt, CInt)
 windowSize = do
   displays <- getDisplays
