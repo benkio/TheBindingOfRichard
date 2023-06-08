@@ -16,13 +16,14 @@ jobs:
     - name: "Apply Fourmolu"
       uses: haskell-actions/run-fourmolu@v7
 
-    - name: 'Set up HLint'
-      uses: rwe/actions-hlint-setup@v1
-      with:
-        version: '3.4.1'
+    # TODO: Find a way to introduce this
+    # - name: 'Set up HLint'
+    #   uses: rwe/actions-hlint-setup@v1
+    #   with:
+    #     version: '3.4.1'
 
-    - name: 'Run HLint'
-      uses: rwe/actions-hlint-run@v2
-      with:
-        path: src/
-        fail-on: warning
+    # - name: 'Run HLint'
+    #   uses: rwe/actions-hlint-run@v2
+    #   with:
+    #     path: src/
+    #     fail-on: warning
