@@ -3,11 +3,11 @@ module Move (Move (..), moveToValueX, moveToValueY) where
 import Foreign.C.Types (CInt)
 
 data Move
-  = Up
-  | Down
-  | Left
-  | Right
-  | Rest
+    = Up
+    | Down
+    | Left
+    | Right
+    | Rest
 
 stepSize :: CInt
 stepSize = 10
