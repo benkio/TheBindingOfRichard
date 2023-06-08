@@ -27,5 +27,6 @@ eventIsKeyPressed keyCode event =
 
 eventIsCloseWindow :: Event -> Bool
 eventIsCloseWindow = go . eventPayload
-  where go (WindowClosedEvent _) = True
-        go _ = False
+  where
+    go (WindowClosedEvent _) = True
+    go _ = False
