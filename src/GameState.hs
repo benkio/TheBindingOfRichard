@@ -8,7 +8,7 @@ import Graphics.Window (windowSize)
 import Move (moveToValueX, moveToValueY)
 import SDL (Event)
 
-newtype GameState = GameState
+data GameState = GameState
   { position :: !Point
   }
 
