@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: ormolu-action
-      uses: mrkkrp/ormolu-action@v7
-    - uses: actions/checkout@v2
+
+    - name: "Apply Fourmolu"
+      uses: haskell-actions/run-fourmolu@v7
 
     - name: 'Set up HLint'
       uses: rwe/actions-hlint-setup@v1
       with:
-        version: '3.5'
+        version: '3.3.6'
 
     - name: 'Run HLint'
       uses: rwe/actions-hlint-run@v2
