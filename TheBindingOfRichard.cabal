@@ -1,6 +1,6 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.35.0.
+-- This file has been generated from package.yaml by hpack version 0.35.2.
 --
 -- see: https://github.com/sol/hpack
 
@@ -62,14 +62,15 @@ executable TheBindingOfRichard-exe
 
 test-suite TheBindingOfRichard-test
   type: exitcode-stdio-1.0
-  main-is: Spec.hs
+  main-is: Main.hs
   other-modules:
       Paths_TheBindingOfRichard
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -fwarn-tabs -Weverything -Wno-missing-exported-signatures -Wno-missing-import-lists -Wno-missed-specialisations -Wno-all-missed-specialisations -Wno-unsafe -Wno-safe -Wno-implicit-prelude -Wno-missing-safe-haskell-mode -Wno-missing-kind-signatures -Wno-prepositive-qualified-module -Wno-missing-deriving-strategies -Wno-missing-local-signatures -Wno-monomorphism-restriction -Wno-unused-do-bind
   build-depends:
-      TheBindingOfRichard
+      HUnit
+    , TheBindingOfRichard
     , base >=4.7 && <5
     , containers
     , lens

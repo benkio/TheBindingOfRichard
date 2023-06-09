@@ -43,6 +43,7 @@ https://www.youtube.com/watch?v=s0QMEqJn8kw
  - 5 dita: simple punch
  - Bastone Infernale: stick, swing
  - Ossa dei morti: bullets
+ - Lugher
  - Carillon Infernale: AoE clears enemies in close range, limited usages per level
 
 ** Enemies
