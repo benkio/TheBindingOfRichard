@@ -48,6 +48,7 @@ ghc-options:
 dependencies:
 - base >= 4.7 && < 5
 - sdl2
+- lens
 - containers
 # - random
 

@@ -1,6 +1,7 @@
-module Move (Move (..), moveToValueX, moveToValueY) where
+module Move (Move (..), moveToValueX, moveToValueY, movePoint) where
 
 import Foreign.C.Types (CInt)
+import Graphics.Point (Point (..))
 
 data Move
     = Up
@@ -21,3 +22,6 @@ moveToValueY :: Move -> CInt
 moveToValueY Move.Up = -stepSize
 moveToValueY Move.Down = stepSize
 moveToValueY _ = 0
+
+movePoint :: Move -> Point -> Point
+movePoint move p = p{x = x p + moveToValueX move, y = y p + moveToValueY move}

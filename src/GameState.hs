@@ -1,23 +1,25 @@
 module GameState (GameState (..), initialGameState, transformGameState) where
 
+import Control.Lens
 import Controls (Controls (..))
-import Data.Functor ((<&>))
 import GameEvent (GameEvent (..), toGameEvent)
 import Graphics.Point (Point (..))
 import Graphics.Window (windowSize)
-import Move (moveToValueX, moveToValueY)
+import Move (movePoint)
 import SDL (Event)
 
 newtype GameState = GameState
     { position :: Point
     }
 
+positionL :: Lens' GameState Point
+positionL = lens position (\state p -> state{position = p})
+
 initialGameState :: IO GameState
 initialGameState = windowSize <&> \(ww, wh) -> GameState{position = Point{x = ww `div` 2, y = wh `div` 2}}
 
--- TODO: Use Lenses!
 transformGameState'' :: GameState -> GameEvent -> Maybe GameState
-transformGameState'' gs (GE move) = Just $ gs{position = ((\p -> p{x = x p + moveToValueX move, y = y p + moveToValueY move}) . position) gs}
+transformGameState'' gs (GE move) = Just $ over positionL (movePoint move) gs
 transformGameState'' _ Quit = Nothing
 
 transformGameState' :: Event -> Controls -> GameState -> Maybe GameState

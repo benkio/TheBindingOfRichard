@@ -31,7 +31,7 @@ appLoop renderer state = do
             windowToBlack renderer
             drawRectangle renderer (Color{red = 0, green = 0, blue = 255, alpha = 255}) Rectangle{topLeftCorner = position newState, width = 20, height = 20}
             present renderer
-            threadDelay firstDisplayRefreshRate -- TODO: Set this dinamically based on the display refresh rate. https://hackage.haskell.org/package/sdl2-2.5.4.0/docs/SDL-Video.html#v:displayModeRefreshRate
+            threadDelay firstDisplayRefreshRate
             appLoop renderer newState
         )
         maybeNewState
