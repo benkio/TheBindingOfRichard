@@ -1,7 +1,7 @@
 module Main (main) where
 
-import Test.HUnit
 import MoveSpec (moveSpec)
+import Test.HUnit
 
 -- Run the tests
 main :: IO ()
