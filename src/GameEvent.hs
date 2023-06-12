@@ -6,7 +6,7 @@ import SDL (Event, keysymKeycode)
 import SDL.Event (EventPayload (..), InputMotion (Pressed), eventPayload, keyboardEventKeyMotion, keyboardEventKeysym)
 import SDL.Input.Keyboard.Codes
 
-data GameEvent = GE Move | Quit
+data GameEvent = GE Move | Quit deriving (Eq, Show)
 
 toGameEvent :: Event -> Controls -> GameEvent
 toGameEvent event controls

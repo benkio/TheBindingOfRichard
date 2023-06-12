@@ -64,7 +64,10 @@ test-suite TheBindingOfRichard-test
   type: exitcode-stdio-1.0
   main-is: Main.hs
   other-modules:
+      GameEventSpec
+      GameStateSpec
       MoveSpec
+      TestOps
       Paths_TheBindingOfRichard
   hs-source-dirs:
       test
