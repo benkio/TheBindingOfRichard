@@ -9,7 +9,7 @@ data Move
     | Left
     | Right
     | Rest
-    deriving Enum
+    deriving (Enum)
 
 stepSize :: CInt
 stepSize = 10
