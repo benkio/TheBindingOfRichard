@@ -2,10 +2,10 @@ module GameStateSpec (gameStateSpec) where
 
 import Controls (defaultControls)
 
+import Data.Foldable (traverse_)
 import GameState (initialGameState, transformGameState)
 import Test.HUnit
-import TestOps (testGameState, quitEventMap, arrowEventMap)
-import Data.Foldable (traverse_)
+import TestOps (arrowEventMap, quitEventMap, testGameState)
 
 gameStateSpec :: Test
 gameStateSpec =
