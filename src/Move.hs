@@ -1,4 +1,4 @@
-module Move (Move (..), moveToValueX, moveToValueY, movePoint) where
+module Move (Move (..), movePoint, stepSize) where
 
 import Foreign.C.Types (CInt)
 import Graphics.Point (Point (..))
@@ -9,6 +9,7 @@ data Move
     | Left
     | Right
     | Rest
+    deriving Enum
 
 stepSize :: CInt
 stepSize = 10
