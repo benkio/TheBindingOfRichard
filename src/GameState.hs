@@ -1,4 +1,4 @@
-module GameState (GameState (..), initialGameState, transformGameState) where
+module GameState (GameState (..), initialGameState, transformGameState, positionL) where
 
 import Foreign.C.Types (CInt)
 
