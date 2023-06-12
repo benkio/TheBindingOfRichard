@@ -7,7 +7,7 @@ data Point = Point
     { x :: !CInt
     , y :: !CInt
     }
-    deriving (Show)
+    deriving (Show, Eq)
 
 pointToSDLPoint :: Point -> Sdl.Point Sdl.V2 CInt
 pointToSDLPoint Point{x = px, y = py} = Sdl.P $ Sdl.V2 px py
