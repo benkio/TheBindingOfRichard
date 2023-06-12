@@ -12,6 +12,7 @@ import SDL (Event)
 newtype GameState = GameState
     { position :: Point
     }
+    deriving (Eq, Show)
 
 positionL :: Lens' GameState Point
 positionL = lens position (\state p -> state{position = p})
