@@ -12,12 +12,13 @@ import Graphics.Rectangle (Rectangle (..), drawRectangle)
 import Graphics.Window (initializeWindow, windowToBlack)
 import SDL (Renderer, initializeAll, pollEvents, present)
 import SDL.Video (Display (..), DisplayMode (..), getDisplays)
+import Graphics.Window (windowSize)
 
 run :: IO ()
 run = do
     initializeAll
     (_, renderer) <- initializeWindow
-    igs <- initialGameState
+    igs <- initialGameState <$> windowSize
     appLoop renderer igs
 
 appLoop :: Renderer -> GameState -> IO ()
