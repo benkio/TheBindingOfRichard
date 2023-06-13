@@ -1,20 +1,20 @@
-module Model.Wall (Wall (..), wallEndL, wallStartL, wallThicknessL) where
+module Model.Wall (Wall (..)-- , wallRectangleL
+                  ) where
 
-import Control.Lens
 import Graphics.Point (Point (..))
+--import Render.Renderable (Renderable (..))
+--import Control.Lens
+--import Graphics.Rectangle (Rectangle (..), drawRectangle)
+--import Text.Printf
 
-data Wall = Wall
-    { start :: Point
-    , end :: Point
-    , thickness :: Int
-    }
-    deriving (Show, Eq)
+data Wall = Wall {
+  start :: !Point,
+  end :: !Point
+  } deriving (Show, Eq)
 
-wallStartL :: Lens' Wall Point
-wallStartL = lens start (\wall p -> wall{start = p})
+-- wallRectangleL :: Lens' Wall Rectangle
+-- wallRectangleL = lens rectangle (\wall r -> wall{rectangle = r})
 
-wallEndL :: Lens' Wall Point
-wallEndL = lens end (\wall p -> wall{end = p})
-
-wallThicknessL :: Lens' Wall Int
-wallThicknessL = lens thickness (\wall v -> wall{thickness = v})
+-- instance Renderable Wall where
+--     render (Wall{rectangle = r}) renderer =
+--       undefined-- drawRectangle renderer r

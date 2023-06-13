@@ -16,4 +16,4 @@ playerPositionL = lens position (\player p -> player{position = p})
 
 instance Renderable Player where
     render (Player{position = p}) renderer =
-        drawRectangle renderer (Color{red = 0, green = 0, blue = 255, alpha = 255}) Rectangle{topLeftCorner = p, width = 20, height = 20}
+      drawRectangle renderer (Rectangle{topLeftCorner = p, width = 20, height = 20, fillColor = (Color{red = 0, green = 0, blue = 255, alpha = 255}), borderColor = Nothing})

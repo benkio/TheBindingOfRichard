@@ -3,7 +3,8 @@ module GameStateSpec (gameStateSpec) where
 import Controls (defaultControls)
 
 import Data.Foldable (traverse_)
-import GameState (initialGameState, transformGameState)
+import GameState (transformGameState)
+import Game.Level1 (gameState)
 import Test.HUnit
 import TestOps (arrowEventMap, quitEventMap, testGameState)
 
@@ -18,7 +19,7 @@ gameStateSpec =
 testInitialState :: Test
 testInitialState =
     TestCase $
-        assertEqual "Check expected game state construction" (initialGameState (100, 100)) testGameState
+        assertEqual "Check expected game state construction" (gameState (100, 100)) testGameState
 
 testTransformGameStateQuit :: Test
 testTransformGameStateQuit =

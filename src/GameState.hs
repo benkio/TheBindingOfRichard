@@ -1,25 +1,21 @@
-module GameState (GameState (..), initialGameState, transformGameState, gameStatePlayerL) where
-
-import Foreign.C.Types (CInt)
+module GameState (GameState (..), transformGameState, gameStatePlayerL) where
 
 import Control.Lens
 import Controls (Controls (..))
 import GameEvent (GameEvent (..), toGameEvent)
-import Graphics.Point (Point (..))
+import qualified Model.Level as L
 import Model.Move (movePoint)
 import Model.Player (Player (..), playerPositionL)
 import SDL (Event)
 
-newtype GameState = GameState
+data GameState = GameState
     { player :: Player
+    , levels :: [L.Level]
     }
-    deriving (Eq, Show)
+    deriving (Show, Eq)
 
 gameStatePlayerL :: Lens' GameState Player
 gameStatePlayerL = lens player (\state p -> state{player = p})
-
-initialGameState :: (CInt, CInt) -> GameState
-initialGameState (ww, wh) = GameState{player = Player{position = Point{x = ww `div` 2, y = wh `div` 2}}}
 
 transformGameState'' :: GameState -> GameEvent -> Maybe GameState
 transformGameState'' gs (GE move) = Just $ over (gameStatePlayerL . playerPositionL) (movePoint move) gs

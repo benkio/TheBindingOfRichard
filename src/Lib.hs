@@ -7,9 +7,10 @@ import Control.Concurrent (threadDelay)
 import Control.Lens
 import Controls (defaultControls)
 import Data.Maybe (fromMaybe, listToMaybe)
-import GameState (GameState (..), gameStatePlayerL, initialGameState, transformGameState)
+import GameState (GameState (..), gameStatePlayerL, transformGameState)
 import Graphics.Window (initializeWindow, windowSize, windowToBlack)
 import Render.Renderable
+import Game.Level1 (gameState)
 import SDL (Renderer, initializeAll, pollEvents, present)
 import SDL.Video (Display (..), DisplayMode (..), getDisplays)
 
@@ -17,7 +18,7 @@ run :: IO ()
 run = do
     initializeAll
     (_, renderer) <- initializeWindow
-    igs <- initialGameState <$> windowSize
+    igs <- gameState <$> windowSize
     appLoop renderer igs
 
 appLoop :: Renderer -> GameState -> IO ()
