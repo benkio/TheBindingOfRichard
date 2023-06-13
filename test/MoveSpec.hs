@@ -1,7 +1,7 @@
 module MoveSpec (moveSpec) where
 
 import Graphics.Point (Point (..))
-import qualified Move
+import qualified Model.Move as M
 import Test.HUnit
 
 moveSpec :: Test
@@ -13,17 +13,17 @@ moveSpec =
 testMovePoint :: Test
 testMovePoint =
     TestCase $
-        let move = enumFrom Move.Up
+        let move = enumFrom M.Up
             point = Point{x = 0, y = 0}
-            actual = fmap (\m -> Move.movePoint m point) move
+            actual = fmap (\m -> M.movePoint m point) move
             expected =
                 fmap
                     ( \m -> case m of
-                        Move.Up -> point{y = y point - Move.stepSize}
-                        Move.Down -> point{y = y point + Move.stepSize}
-                        Move.Left -> point{x = x point - Move.stepSize}
-                        Move.Right -> point{x = x point + Move.stepSize}
-                        Move.Rest -> point
+                        M.Up -> point{y = y point - M.stepSize}
+                        M.Down -> point{y = y point + M.stepSize}
+                        M.Left -> point{x = x point - M.stepSize}
+                        M.Right -> point{x = x point + M.stepSize}
+                        M.Rest -> point
                     )
                     move
          in assertEqual "PointMoved to the right position" actual expected

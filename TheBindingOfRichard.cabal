@@ -32,8 +32,12 @@ library
       Graphics.Rectangle
       Graphics.Window
       Lib
-      Move
-      Player
+      Model.Level
+      Model.Move
+      Model.Player
+      Model.Room
+      Model.Wall
+      Render.Renderable
   other-modules:
       Paths_TheBindingOfRichard
   hs-source-dirs:

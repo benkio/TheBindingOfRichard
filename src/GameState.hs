@@ -6,8 +6,8 @@ import Control.Lens
 import Controls (Controls (..))
 import GameEvent (GameEvent (..), toGameEvent)
 import Graphics.Point (Point (..))
-import Move (movePoint)
-import Player (Player (..), playerPositionL)
+import Model.Move (movePoint)
+import Model.Player (Player (..), playerPositionL)
 import SDL (Event)
 
 newtype GameState = GameState
