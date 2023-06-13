@@ -33,6 +33,7 @@ library
       Graphics.Window
       Lib
       Move
+      Player
   other-modules:
       Paths_TheBindingOfRichard
   hs-source-dirs:

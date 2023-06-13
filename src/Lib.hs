@@ -4,12 +4,14 @@
 module Lib (run) where
 
 import Control.Concurrent (threadDelay)
+import Control.Lens
 import Controls (defaultControls)
 import Data.Maybe (fromMaybe, listToMaybe)
-import GameState (GameState (..), initialGameState, transformGameState)
+import GameState (GameState (..), gameStatePlayerL, initialGameState, transformGameState)
 import Graphics.Color (Color (..))
 import Graphics.Rectangle (Rectangle (..), drawRectangle)
 import Graphics.Window (initializeWindow, windowSize, windowToBlack)
+import Player (playerPositionL)
 import SDL (Renderer, initializeAll, pollEvents, present)
 import SDL.Video (Display (..), DisplayMode (..), getDisplays)
 
@@ -29,7 +31,7 @@ appLoop renderer state = do
         (return ())
         ( \newState -> do
             windowToBlack renderer
-            drawRectangle renderer (Color{red = 0, green = 0, blue = 255, alpha = 255}) Rectangle{topLeftCorner = position newState, width = 20, height = 20}
+            drawRectangle renderer (Color{red = 0, green = 0, blue = 255, alpha = 255}) Rectangle{topLeftCorner = view (gameStatePlayerL . playerPositionL) newState, width = 20, height = 20}
             present renderer
             threadDelay firstDisplayRefreshRate
             appLoop renderer newState
