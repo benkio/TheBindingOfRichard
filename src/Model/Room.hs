@@ -2,6 +2,7 @@ module Model.Room (Room (..), roomWallsL) where
 
 import Control.Lens
 import Model.Wall (Wall (..))
+import Render.Renderable
 
 newtype Room = Room
     { walls :: [Wall]
@@ -10,3 +11,7 @@ newtype Room = Room
 
 roomWallsL :: Lens' Room [Wall]
 roomWallsL = lens walls (\room ws -> room{walls = ws})
+
+instance Renderable Room where
+    render (Room{walls = ws}) renderer =
+        mapM_ (`render` renderer) ws

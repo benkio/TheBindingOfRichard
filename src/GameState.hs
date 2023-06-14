@@ -1,12 +1,14 @@
 module GameState (GameState (..), transformGameState, gameStatePlayerL) where
 
-import Control.Lens
+import Control.Lens hiding (levels)
 import Controls (Controls (..))
 import GameEvent (GameEvent (..), toGameEvent)
+import Graphics.Window (windowToBlack)
 import qualified Model.Level as L
 import Model.Move (movePoint)
 import Model.Player (Player (..), playerPositionL)
-import SDL (Event)
+import Render.Renderable
+import SDL (Event, present)
 
 data GameState = GameState
     { player :: Player
@@ -27,3 +29,10 @@ transformGameState' ev controls gs = transformGameState'' gs $ toGameEvent ev co
 transformGameState :: [Event] -> Controls -> GameState -> Maybe GameState
 transformGameState evs controls gs =
     foldl (\mst e -> mst >>= \st -> transformGameState' e controls st) (Just gs) evs
+
+instance Renderable GameState where
+    render (GameState{player = p, levels = ls}) renderer = do
+        windowToBlack renderer
+        render p renderer
+        mapM_ (`render` renderer) ls
+        present renderer

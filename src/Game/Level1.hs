@@ -3,9 +3,10 @@ module Game.Level1 (gameState) where
 import Foreign.C.Types (CInt)
 import GameState (GameState (..))
 import Graphics.Point (Point (..))
-import Model.Level (Level(..))
+import Model.Level (Level (..))
 import Model.Player (Player (..))
 import Model.Room (Room (..))
+import Model.Wall (Wall (..))
 
 gameState :: (CInt, CInt) -> GameState
 gameState (ww, wh) =
@@ -14,16 +15,18 @@ gameState (ww, wh) =
             { player = p
             , levels =
                 [ Level
-                    { rooms = [room1]
+                    { rooms = [room1 ww wh]
                     }
                 ]
             }
 
-room1 :: Room
-room1 = undefined
-
--- Room {
---                   walls = [
---                       buildWall
---                           ]
---                    }
+room1 :: CInt -> CInt -> Room
+room1 ww wh =
+    Room
+        { walls =
+            [ Wall{start = Point{x = wwStep, y = whStep}, end = Point{x = wwStep * 3, y = whStep * 3}, thickness = 10}
+            ]
+        }
+  where
+    wwStep = ww `div` 4
+    whStep = wh `div` 4

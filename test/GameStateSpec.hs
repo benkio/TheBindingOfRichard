@@ -3,8 +3,8 @@ module GameStateSpec (gameStateSpec) where
 import Controls (defaultControls)
 
 import Data.Foldable (traverse_)
-import GameState (transformGameState)
 import Game.Level1 (gameState)
+import GameState (transformGameState)
 import Test.HUnit
 import TestOps (arrowEventMap, quitEventMap, testGameState)
 

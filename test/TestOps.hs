@@ -1,11 +1,11 @@
 module TestOps (eventMap, arrowEventMap, quitEventMap, testGameState, buildKeypressEvent) where
 
-import Model.Player (Player (..), playerPositionL)
 import Control.Lens
 import GameEvent (GameEvent (..))
 import qualified GameState as G (GameState (..), gameStatePlayerL)
 import Graphics.Point (Point (..))
 import qualified Model.Move as M
+import Model.Player (Player (..), playerPositionL)
 import qualified SDL
 
 testGameState :: G.GameState

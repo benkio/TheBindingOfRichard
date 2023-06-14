@@ -4,14 +4,13 @@
 module Lib (run) where
 
 import Control.Concurrent (threadDelay)
-import Control.Lens
 import Controls (defaultControls)
 import Data.Maybe (fromMaybe, listToMaybe)
-import GameState (GameState (..), gameStatePlayerL, transformGameState)
-import Graphics.Window (initializeWindow, windowSize, windowToBlack)
-import Render.Renderable
 import Game.Level1 (gameState)
-import SDL (Renderer, initializeAll, pollEvents, present)
+import GameState (GameState (..), transformGameState)
+import Graphics.Window (initializeWindow, windowSize)
+import Render.Renderable
+import SDL (Renderer, initializeAll, pollEvents)
 import SDL.Video (Display (..), DisplayMode (..), getDisplays)
 
 run :: IO ()
@@ -29,9 +28,7 @@ appLoop renderer state = do
     maybe
         (return ())
         ( \newState -> do
-            windowToBlack renderer
-            render (view gameStatePlayerL newState) renderer
-            present renderer
+            render newState renderer
             threadDelay firstDisplayRefreshRate
             appLoop renderer newState
         )

@@ -8,7 +8,8 @@ data Color = Color
     , green :: !Word8
     , blue :: !Word8
     , alpha :: !Word8
-    } deriving (Show, Eq)
+    }
+    deriving (Show, Eq)
 
 colorToV4 :: Color -> V4 Word8
 colorToV4 c = V4 (red c) (green c) (blue c) (alpha c)
