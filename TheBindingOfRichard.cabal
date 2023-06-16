@@ -49,6 +49,9 @@ library
     , containers
     , lens
     , sdl2
+    , sdl2-gfx
+    , sdl2-image
+    , sdl2-mixer
   default-language: Haskell2010
 
 executable TheBindingOfRichard-exe
@@ -64,6 +67,9 @@ executable TheBindingOfRichard-exe
     , containers
     , lens
     , sdl2
+    , sdl2-gfx
+    , sdl2-image
+    , sdl2-mixer
   default-language: Haskell2010
 
 test-suite TheBindingOfRichard-test
@@ -85,4 +91,7 @@ test-suite TheBindingOfRichard-test
     , containers
     , lens
     , sdl2
+    , sdl2-gfx
+    , sdl2-image
+    , sdl2-mixer
   default-language: Haskell2010
