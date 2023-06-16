@@ -1,3 +1,5 @@
+{-# LANGUAGE LambdaCase #-}
+
 module MoveSpec (moveSpec) where
 
 import Graphics.Point (Point (..))
@@ -15,10 +17,10 @@ testMovePoint =
     TestCase $
         let move = enumFrom M.Up
             point = Point{x = 0, y = 0}
-            actual = fmap (\m -> M.movePoint m point) move
+            actual = fmap (`M.movePoint` point) move
             expected =
                 fmap
-                    ( \m -> case m of
+                    ( \case
                         M.Up -> point{y = y point - M.stepSize}
                         M.Down -> point{y = y point + M.stepSize}
                         M.Left -> point{x = x point - M.stepSize}
