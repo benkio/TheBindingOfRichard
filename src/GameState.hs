@@ -33,6 +33,6 @@ transformGameState evs controls gs =
 instance Renderable GameState where
     render (GameState{player = p, levels = ls}) renderer = do
         windowToBlack renderer
-        render p renderer
         mapM_ (`render` renderer) ls
+        render p renderer
         present renderer

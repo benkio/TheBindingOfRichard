@@ -53,6 +53,7 @@ dependencies:
 - sdl2-mixer
 - lens
 - containers
+- vector
 # - random
 
 library:
