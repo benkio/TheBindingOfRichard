@@ -62,38 +62,3 @@ cleanup music = do
     Mix.free music
     Mix.quit
     SDLInit.quit
-
--- import           Control.Monad      (when)
--- import           Data.Default.Class (def)
--- import qualified SDL
--- import qualified SDL.Mixer          as Mix
--- import           System.Environment (getArgs)
--- import           System.Exit        (exitFailure)
-
--- run :: IO ()
--- run = do
---   -- initialize libraries
---   SDL.initialize [SDL.InitAudio]
---   Mix.initialize [Mix.InitMP3]
-
---   -- open device
---   Mix.openAudio def 256
-
---   -- open file
---   sound <- Mix.load "./music/danzaMacabra.ogg"
-
---   -- play file
---   Mix.play sound
-
---   -- wait until finished
---   whileTrueM $ Mix.playing Mix.AllChannels
-
---   -- free resources
---   Mix.free sound
-
---   -- close device
---   Mix.closeAudio
-
---   -- quit
---   Mix.quit
---   SDL.quit
