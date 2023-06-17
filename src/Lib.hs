@@ -17,7 +17,7 @@ import qualified SDL.Init as SDLInit
 import qualified SDL.Mixer as Mix
 import SDL.Video (Display (..), DisplayMode (..), getDisplays)
 
---TODO: Look at the sdl2-gfx for loading the framerate correctly
+-- TODO: Look at the sdl2-gfx for loading the framerate correctly
 run :: IO ()
 run = do
     initializeAll
