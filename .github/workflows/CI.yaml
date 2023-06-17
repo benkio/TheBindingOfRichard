@@ -8,7 +8,7 @@ on:
         - "**"
 
 jobs:
-  lint:
+  fourmolu:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -16,9 +16,11 @@ jobs:
     - name: "Apply Fourmolu"
       uses: haskell-actions/run-fourmolu@v7
 
+  test:
     - name: "Unit tests"
       run: "stack test"
     # TODO: Find a way to introduce this
+  #hlint:
     # - name: 'Set up HLint'
     #   uses: rwe/actions-hlint-setup@v1
     #   with:
