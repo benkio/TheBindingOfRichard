@@ -17,6 +17,8 @@ jobs:
       uses: haskell-actions/run-fourmolu@v7
 
   test:
+    runs-on: ubuntu-latest
+    steps:
     - name: "Unit tests"
       run: "stack test"
     # TODO: Find a way to introduce this
