@@ -16,6 +16,8 @@ jobs:
     - name: "Apply Fourmolu"
       uses: haskell-actions/run-fourmolu@v7
 
+    - name: "Unit tests"
+      run: "stack test"
     # TODO: Find a way to introduce this
     # - name: 'Set up HLint'
     #   uses: rwe/actions-hlint-setup@v1
