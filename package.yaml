@@ -54,6 +54,7 @@ dependencies:
 - lens
 - containers
 - vector
+- data-default-class
 # - random
 
 library:

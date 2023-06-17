@@ -47,6 +47,7 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , data-default-class
     , lens
     , sdl2
     , sdl2-gfx
@@ -66,6 +67,7 @@ executable TheBindingOfRichard-exe
       TheBindingOfRichard
     , base >=4.7 && <5
     , containers
+    , data-default-class
     , lens
     , sdl2
     , sdl2-gfx
@@ -91,6 +93,7 @@ test-suite TheBindingOfRichard-test
     , TheBindingOfRichard
     , base >=4.7 && <5
     , containers
+    , data-default-class
     , lens
     , sdl2
     , sdl2-gfx
