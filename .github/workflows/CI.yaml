@@ -19,19 +19,32 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: "Initialize stack"
-      run: "stack init"
+    - uses: actions/checkout@v3
+    - uses: haskell/actions/setup@v2
+      with:
+        ghc-version: '9.2.8' # Exact version of ghc to use
+        # cabal-version: 'latest'. Omitted, but defaults to 'latest'
+        enable-stack: true
+        stack-version: 'latest'
     - name: "Unit tests"
       run: "stack test"
-    # TODO: Find a way to introduce this
-  #hlint:
-    # - name: 'Set up HLint'
-    #   uses: rwe/actions-hlint-setup@v1
-    #   with:
-    #     version: '3.4.1'
 
-    # - name: 'Run HLint'
-    #   uses: rwe/actions-hlint-run@v2
-    #   with:
-    #     path: src/
-    #     fail-on: warning
+  hlint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: 'Set up HLint'
+      uses: haskell/actions/hlint-setup@v2
+
+    - name: 'Run HLint src'
+      uses: haskell/actions/hlint-run@v2
+      with:
+        path: src/
+        fail-on: warning
+
+    - name: 'Run HLint test'
+      uses: haskell/actions/hlint-run@v2
+      with:
+        path: test/
+        fail-on: warning
