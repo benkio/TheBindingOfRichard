@@ -9,4 +9,4 @@ import Test.HUnit
 main :: IO ()
 main = do
     counts <- runTestTT $ TestList [moveSpec, gameEventSpec, gameStateSpec]
-    putStrLn counts
+    print counts

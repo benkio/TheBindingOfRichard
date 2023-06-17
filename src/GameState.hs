@@ -1,9 +1,10 @@
-module GameState (GameState (..), transformGameState, gameStatePlayerL) where
+module GameState (GameState (..), transformGameState, gameStatePlayerL, gameStateLevelsL) where
 
-import Control.Lens hiding (levels)
+import Control.Lens hiding (Level, levels)
 import Controls (Controls (..))
 import GameEvent (GameEvent (..), toGameEvent)
 import Graphics.Window (windowToBlack)
+import Model.Level (Level (..))
 import qualified Model.Level as L
 import Model.Move (movePoint)
 import Model.Player (Player (..), playerPositionL)
@@ -18,6 +19,9 @@ data GameState = GameState
 
 gameStatePlayerL :: Lens' GameState Player
 gameStatePlayerL = lens player (\state p -> state{player = p})
+
+gameStateLevelsL :: Lens' GameState [Level]
+gameStateLevelsL = lens levels (\state ls -> state{levels = ls})
 
 transformGameState'' :: GameState -> GameEvent -> Maybe GameState
 transformGameState'' gs (GE move) = Just $ over (gameStatePlayerL . playerPositionL) (movePoint move) gs
