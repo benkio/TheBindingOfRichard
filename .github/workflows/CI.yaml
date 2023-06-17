@@ -19,6 +19,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+    - name: "Initialize stack"
+      run: "stack init"
     - name: "Unit tests"
       run: "stack test"
     # TODO: Find a way to introduce this
