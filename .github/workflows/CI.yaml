@@ -26,6 +26,8 @@ jobs:
         # cabal-version: 'latest'. Omitted, but defaults to 'latest'
         enable-stack: true
         stack-version: 'latest'
+    - name: "Install SDL"
+      run: sudo apt-get install -y sdl2 sdl2-mixer sdl2-image sdl2-gfx
     - name: "Unit tests"
       run: "stack test"
 
