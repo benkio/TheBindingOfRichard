@@ -42,10 +42,10 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y sdl2-dev
-        sudo apt-get install -y sdl2-mixer-dev
-        sudo apt-get install -y sdl2-image-dev
-        sudo apt-get install -y sdl2-gfx-dev
+        sudo apt-get install -y libsdl2-dev
+        sudo apt-get install -y libsdl2-mixer-dev
+        sudo apt-get install -y libsdl2-image-dev
+        sudo apt-get install -y libsdl2-gfx-dev
     - name: Unit Test
       run: stack test
 
