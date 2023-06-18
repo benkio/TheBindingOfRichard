@@ -18,14 +18,26 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ghc: ["9.2.8"]
     steps:
     - uses: actions/checkout@v3
     - uses: haskell/actions/setup@v2
       with:
-        ghc-version: '9.2.8' # Exact version of ghc to use
+        ghc-version: ${{ matrix.ghc }} # Exact version of ghc to use
         # cabal-version: 'latest'. Omitted, but defaults to 'latest'
         enable-stack: true
         stack-version: 'latest'
+     - name: Cache ~/.cabal/store, .stack-work and dist-newstyle
+       uses: actions/cache@v2
+       with:
+         path: |
+           ~/.cabal/store
+           dist-newstyle
+           .stack-work
+         restore-keys: |
+           ${{ runner.os }}-${{ matrix.ghc }}-
     - name: "Install Dependencies"
       run: |
         sudo apt-get update
