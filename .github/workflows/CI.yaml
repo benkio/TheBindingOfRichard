@@ -39,15 +39,14 @@ jobs:
         key: ${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('cabal.project.freeze') }}
         restore-keys: |
           ${{ runner.os }}-${{ matrix.ghc }}-
-    - name: "Install Dependencies"
+    - name: "Install Dependencies & test"
       run: |
         sudo apt-get update
         sudo apt-get install -y sdl2-2.0-0
         sudo apt-get install -y sdl2-mixer-2.0-0
         sudo apt-get install -y sdl2-image-2.0-0
         sudo apt-get install -y sdl2-gfx-1.0-0
-    - name: "Unit tests"
-      run: "stack test"
+        stack test
 
   hlint:
     runs-on: ubuntu-latest
