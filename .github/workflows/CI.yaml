@@ -32,7 +32,7 @@ jobs:
         sudo apt-get install -y sdl2-2.0-0
         sudo apt-get install -y sdl2-mixer-2.0-0
         sudo apt-get install -y sdl2-image-2.0-0
-        sudo apt-get install -y sdl2-gfx-2.0-0
+        sudo apt-get install -y sdl2-gfx-1.0-0
     - name: "Unit tests"
       run: "stack test"
 
