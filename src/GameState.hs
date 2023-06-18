@@ -7,7 +7,7 @@ import Graphics.Window (windowToBlack)
 import Model.Level (Level (..))
 import qualified Model.Level as L
 import Model.Move (Move (..), movePoint)
-import Model.Player (Player (..), playerPositionL)
+import Model.Player (Player (..), playerPositionL, playerPositionPositionL)
 import Render.Renderable
 import SDL (Event, present)
 
@@ -25,7 +25,7 @@ gameStateLevelsL = lens levels (\state ls -> state{levels = ls})
 
 transformGameState'' :: GameState -> GameEvent -> Maybe GameState
 transformGameState'' gs (GE move)
-    | isLegalMove move gs = Just $ over (gameStatePlayerL . playerPositionL) (movePoint move) gs
+    | isLegalMove move gs = Just $ over (gameStatePlayerL . playerPositionL . playerPositionPositionL) (movePoint move) gs
     | otherwise = Just gs
 transformGameState'' _ Quit = Nothing
 

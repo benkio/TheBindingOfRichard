@@ -11,7 +11,8 @@ import Render.Renderable
 import SDL.Primitive (fillPolygon)
 
 data Room = Room
-    { walls :: [Wall]
+    { roomId :: Int
+    , walls :: [Wall]
     , backgroundColor :: Color
     }
     deriving (Show, Eq)
