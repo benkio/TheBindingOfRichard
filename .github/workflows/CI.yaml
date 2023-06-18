@@ -29,15 +29,15 @@ jobs:
         # cabal-version: 'latest'. Omitted, but defaults to 'latest'
         enable-stack: true
         stack-version: 'latest'
-     - name: Cache ~/.cabal/store, .stack-work and dist-newstyle
-       uses: actions/cache@v2
-       with:
-         path: |
-           ~/.cabal/store
-           dist-newstyle
-           .stack-work
-         restore-keys: |
-           ${{ runner.os }}-${{ matrix.ghc }}-
+    - name: Cache ~/.cabal/store, .stack-work and dist-newstyle
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cabal/store
+          dist-newstyle
+          .stack-work
+        restore-keys: |
+          ${{ runner.os }}-${{ matrix.ghc }}-
     - name: "Install Dependencies"
       run: |
         sudo apt-get update
