@@ -6,7 +6,7 @@ import GameEvent (GameEvent (..), toGameEvent)
 import Graphics.Window (windowToBlack)
 import Model.Level (Level (..))
 import qualified Model.Level as L
-import Model.Move (movePoint)
+import Model.Move (Move (..), movePoint)
 import Model.Player (Player (..), playerPositionL)
 import Render.Renderable
 import SDL (Event, present)
@@ -24,7 +24,9 @@ gameStateLevelsL :: Lens' GameState [Level]
 gameStateLevelsL = lens levels (\state ls -> state{levels = ls})
 
 transformGameState'' :: GameState -> GameEvent -> Maybe GameState
-transformGameState'' gs (GE move) = Just $ over (gameStatePlayerL . playerPositionL) (movePoint move) gs
+transformGameState'' gs (GE move)
+    | isLegalMove move gs = Just $ over (gameStatePlayerL . playerPositionL) (movePoint move) gs
+    | otherwise = Just gs
 transformGameState'' _ Quit = Nothing
 
 transformGameState' :: Event -> Controls -> GameState -> Maybe GameState
@@ -40,3 +42,7 @@ instance Renderable GameState where
         mapM_ (`render` renderer) ls
         render p renderer
         present renderer
+
+-- TODO: if the player try to pass through a wall, Stop him!!
+isLegalMove :: Move -> GameState -> Bool
+isLegalMove _ _ = undefined
