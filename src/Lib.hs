@@ -4,35 +4,47 @@
 module Lib (run) where
 
 import Control.Concurrent (threadDelay)
+import Control.Monad (unless)
 import Controls (defaultControls)
+import Data.Default.Class (def)
 import Data.Maybe (fromMaybe, listToMaybe)
-import GameState (GameState (..), initialGameState, transformGameState)
-import Graphics.Color (Color (..))
-import Graphics.Rectangle (Rectangle (..), drawRectangle)
-import Graphics.Window (initializeWindow, windowSize, windowToBlack)
-import SDL (Renderer, initializeAll, pollEvents, present)
+import Game.Level1 (gameState)
+import GameState (GameState (..), transformGameState)
+import Graphics.Window (initializeWindow, windowSize)
+import Render.Renderable
+import SDL (Renderer, initializeAll, pollEvents)
+import qualified SDL.Init as SDLInit
+import qualified SDL.Mixer as Mix
 import SDL.Video (Display (..), DisplayMode (..), getDisplays)
 
+-- TODO: Look at the sdl2-gfx for loading the framerate correctly
 run :: IO ()
 run = do
     initializeAll
-    (_, renderer) <- initializeWindow
-    igs <- initialGameState <$> windowSize
-    appLoop renderer igs
 
-appLoop :: Renderer -> GameState -> IO ()
-appLoop renderer state = do
+    (_, renderer) <- initializeWindow
+    igs <- gameState <$> windowSize
+
+    -- open device
+    Mix.openAudio def 256
+    music <- Mix.load "./music/danzaMacabra.ogg"
+    Mix.haltMusic
+
+    appLoop renderer igs music
+
+appLoop :: Renderer -> GameState -> Mix.Chunk -> IO ()
+appLoop renderer state music = do
     events <- pollEvents
+    somethingPlaying <- Mix.playing Mix.AllChannels
+    unless somethingPlaying $ Mix.play music
     firstDisplayRefreshRate <- firstDisplayRefreshRateOrDefault
     let maybeNewState = transformGameState events defaultControls state
     maybe
-        (return ())
+        (cleanup music)
         ( \newState -> do
-            windowToBlack renderer
-            drawRectangle renderer (Color{red = 0, green = 0, blue = 255, alpha = 255}) Rectangle{topLeftCorner = position newState, width = 20, height = 20}
-            present renderer
+            render newState renderer
             threadDelay firstDisplayRefreshRate
-            appLoop renderer newState
+            appLoop renderer newState music
         )
         maybeNewState
 
@@ -44,3 +56,9 @@ firstDisplayRefreshRateOrDefault = do
     mayFirstDisplay <- fmap listToMaybe getDisplays
     let mayFirstDisplayRefreshRate = fmap (fromIntegral . displayModeRefreshRate) $ mayFirstDisplay >>= listToMaybe . displayModes
     return $ fromMaybe defaultDisplayRefreshRate mayFirstDisplayRefreshRate
+
+cleanup :: Mix.Chunk -> IO ()
+cleanup music = do
+    Mix.free music
+    Mix.quit
+    SDLInit.quit

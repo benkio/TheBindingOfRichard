@@ -8,7 +8,7 @@ on:
         - "**"
 
 jobs:
-  lint:
+  fourmolu:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -16,14 +16,55 @@ jobs:
     - name: "Apply Fourmolu"
       uses: haskell-actions/run-fourmolu@v7
 
-    # TODO: Find a way to introduce this
-    # - name: 'Set up HLint'
-    #   uses: rwe/actions-hlint-setup@v1
-    #   with:
-    #     version: '3.4.1'
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ghc: ["9.2.8"]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: haskell/actions/setup@v2
+      with:
+        ghc-version: ${{ matrix.ghc }} # Exact version of ghc to use
+        # cabal-version: 'latest'. Omitted, but defaults to 'latest'
+        enable-stack: true
+        stack-version: 'latest'
+    - name: Cache ~/.cabal/store, .stack-work and dist-newstyle
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cabal/store
+          dist-newstyle
+          .stack-work
+        key: ${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('cabal.project.freeze') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ matrix.ghc }}-
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libsdl2-dev
+        sudo apt-get install -y libsdl2-mixer-dev
+        sudo apt-get install -y libsdl2-image-dev
+        sudo apt-get install -y libsdl2-gfx-dev
+    - name: Unit Test
+      run: stack test
 
-    # - name: 'Run HLint'
-    #   uses: rwe/actions-hlint-run@v2
-    #   with:
-    #     path: src/
-    #     fail-on: warning
+  hlint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: 'Set up HLint'
+      uses: haskell/actions/hlint-setup@v2
+
+    - name: 'Run HLint src'
+      uses: haskell/actions/hlint-run@v2
+      with:
+        path: src/
+        fail-on: warning
+
+    - name: 'Run HLint test'
+      uses: haskell/actions/hlint-run@v2
+      with:
+        path: test/
+        fail-on: warning
