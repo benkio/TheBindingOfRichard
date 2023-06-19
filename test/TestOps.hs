@@ -9,7 +9,7 @@ import Model.Player (Player (..), PlayerPosition (..), playerPositionL, playerPo
 import qualified SDL
 
 testGameState :: G.GameState
-testGameState = G.GameState{G.player = Player{playerPosition = PlayerPosition{position = Point{x = 50, y = 50}, roomId = 0}}, G.levels = []}
+testGameState = G.GameState{G.player = Player{playerPosition = PlayerPosition{position = Point{x = 50, y = 50}, roomId = 0, levelId = 0}}, G.levels = []}
 
 eventMap :: [(SDL.Event, GameEvent, G.GameState -> G.GameState)]
 eventMap =

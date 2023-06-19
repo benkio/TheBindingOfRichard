@@ -1,10 +1,9 @@
 module GameStateSpec (gameStateSpec) where
 
-import Control.Lens
 import Controls (defaultControls)
 import Data.Foldable (traverse_)
 import Game.Level1 (gameState)
-import GameState (gameStateLevelsL, transformGameState)
+import GameState (GameState (..), transformGameState)
 import Test.HUnit
 import TestOps (arrowEventMap, quitEventMap, testGameState)
 
@@ -19,7 +18,9 @@ gameStateSpec =
 testInitialState :: Test
 testInitialState =
     TestCase $
-        assertEqual "Check expected game state construction" testGameState (set gameStateLevelsL [] (gameState (100, 100)))
+        assertEqual "Check expected game state construction" testGameState expectedGameState
+  where
+    expectedGameState = (\gs -> gs{levels = []}) $ gameState (100, 100)
 
 testTransformGameStateQuit :: Test
 testTransformGameStateQuit =
@@ -29,4 +30,4 @@ testTransformGameStateQuit =
 testTransformGameState :: Test
 testTransformGameState =
     TestCase $
-        traverse_ (\(e, _, f) -> assertEqual "Check the quit case, expected Nothing" ((Just . f) testGameState) (transformGameState [e] defaultControls testGameState)) arrowEventMap
+        traverse_ (\(e, _, f) -> assertEqual "Check the arrow case, expected movement" ((Just . f) testGameState) (transformGameState [e] defaultControls (gameState (100, 100)))) arrowEventMap
