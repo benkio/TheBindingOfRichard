@@ -17,7 +17,7 @@ import SDL (Event, present)
 data GameState = GameState
     { player :: Player
     , levels :: [L.Level]
-    } | GameExit
+    }
     deriving (Show, Eq)
 
 gameStatePlayerL :: Lens' GameState Player
@@ -48,7 +48,6 @@ instance Renderable GameState where
         mapM_ (`render` renderer) ls
         render p renderer
         present renderer
-    render GameExit _ = error "Can't render a Game Exit"
 
 isLegalState :: GameState -> Bool
 isLegalState gs = maybe False (isWithinRoom pp . toInnerRoom) mr

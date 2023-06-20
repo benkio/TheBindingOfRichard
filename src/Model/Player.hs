@@ -4,8 +4,10 @@ import Control.Lens
 import Foreign.C.Types (CInt)
 import Graphics.Color (blueColor)
 import Graphics.Point (Point (..))
-import Graphics.Rectangle (Rectangle (..), drawRectangle)
+import Graphics.Rectangle (Rectangle (..))
+import Graphics.Texture (loadTexture, renderTexture)
 import Render.Renderable (Renderable (..))
+import qualified SDL
 
 data PlayerPosition = PlayerPosition
     { position :: Point
@@ -14,10 +16,14 @@ data PlayerPosition = PlayerPosition
     }
     deriving (Show, Eq)
 
-newtype Player = Player
+data Player = Player
     { playerPosition :: PlayerPosition
+    , playerTexture :: SDL.Texture
     }
     deriving (Show, Eq)
+
+instance Show SDL.Texture where
+    show _ = "player texture"
 
 playerSize :: (CInt, CInt)
 playerSize = (20, 20)
@@ -35,5 +41,11 @@ playerPositionLevelIdL :: Lens' PlayerPosition Int
 playerPositionLevelIdL = lens levelId (\pp i -> pp{levelId = i})
 
 instance Renderable Player where
-    render (Player{playerPosition = PlayerPosition{position = p}}) renderer =
-        drawRectangle renderer (Rectangle{topLeftCorner = p, width = fst playerSize, height = snd playerSize, fillColor = blueColor, borderColor = Nothing})
+    render
+        ( Player
+                { playerPosition = PlayerPosition{position = p}
+                , playerTexture = pt
+                }
+            )
+        renderer =
+            renderTexture renderer pt Rectangle{topLeftCorner = p, width = fst playerSize, height = snd playerSize, fillColor = blueColor, borderColor = Nothing}

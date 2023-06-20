@@ -15,4 +15,3 @@ renderTexture :: SDL.Renderer -> SDL.Texture -> Rectangle -> IO ()
 renderTexture renderer texture rectangle = do
     let destination = (Just . rectangleToSDLRectangle) rectangle
     SDL.copy renderer texture Nothing destination
-    SDL.present renderer
