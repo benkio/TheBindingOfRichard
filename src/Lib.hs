@@ -26,10 +26,10 @@ appLoop :: GameSetup -> GameState -> IO ()
 appLoop gameSetup state = do
     events <- pollEvents
     somethingPlaying <- Mix.playing Mix.AllChannels
-    unless somethingPlaying $ Mix.play ((head . backgroundMusic . music) gameSetup) --TODO: make this random when have multiple background music
+    unless somethingPlaying $ Mix.play ((head . backgroundMusic . music) gameSetup) -- TODO: make this random when have multiple background music
     let maybeNewState = transformGameState events defaultControls state
 
-    --TODO: if Nothing don't render the gamestate but loop, otherwise render. On GameExit return Unit
+    -- TODO: if Nothing don't render the gamestate but loop, otherwise render. On GameExit return Unit
     maybe
         (pure ())
         ( \newState -> do
