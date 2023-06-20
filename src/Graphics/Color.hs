@@ -1,4 +1,4 @@
-module Graphics.Color (Color (..), colorToV4) where
+module Graphics.Color (Color (..), colorToV4, blueColor, greyColor, lightBrownColor) where
 
 import Data.Word (Word8)
 import SDL.Vect (V4 (..))
@@ -13,3 +13,10 @@ data Color = Color
 
 colorToV4 :: Color -> V4 Word8
 colorToV4 c = V4 (red c) (green c) (blue c) (alpha c)
+
+lightBrownColor :: Color
+lightBrownColor = Color{red = 200, green = 160, blue = 130, alpha = 255}
+blueColor :: Color
+blueColor = Color{red = 0, green = 0, blue = 255, alpha = 255}
+greyColor :: Color
+greyColor = Color{red = 200, green = 200, blue = 200, alpha = 255}
