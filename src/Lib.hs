@@ -28,6 +28,7 @@ appLoop gameSetup state = do
     unless somethingPlaying $ Mix.play (backgroundMusic gameSetup)
     let maybeNewState = transformGameState events defaultControls state
 
+    --TODO: if Nothing don't render the gamestate but loop, otherwise render. On GameExit return Unit
     maybe
         (pure ())
         ( \newState -> do
