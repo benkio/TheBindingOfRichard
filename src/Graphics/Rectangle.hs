@@ -1,4 +1,4 @@
-module Graphics.Rectangle (Rectangle (..), drawRectangle) where
+module Graphics.Rectangle (Rectangle (..), drawRectangle, rectangleToSDLRectangle) where
 
 import Foreign.C.Types (CInt)
 import Graphics.Color (Color (..), colorToV4)

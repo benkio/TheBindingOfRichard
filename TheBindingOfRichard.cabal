@@ -28,10 +28,12 @@ library
       Controls
       Game.Level1
       GameEvent
+      GameSetup
       GameState
       Graphics.Color
       Graphics.Point
       Graphics.Rectangle
+      Graphics.Texture
       Graphics.Window
       Lib
       Model.Level
