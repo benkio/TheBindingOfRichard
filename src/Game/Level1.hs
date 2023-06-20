@@ -1,6 +1,5 @@
 module Game.Level1 (gameState) where
 
-import Foreign.C.Types (CInt)
 import GameSetup (GameSetup (..), GameSetupImage (..))
 import GameState (GameState (..))
 import Graphics.Point (Point (..))

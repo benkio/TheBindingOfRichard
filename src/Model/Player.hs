@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -fno-warn-orphans #-}
+
 module Model.Player (Player (..), PlayerPosition (..), playerPositionL, playerPositionPositionL, playerPositionRoomIdL, playerPositionLevelIdL, playerSize) where
 
 import Control.Lens
@@ -5,7 +7,7 @@ import Foreign.C.Types (CInt)
 import Graphics.Color (blueColor)
 import Graphics.Point (Point (..))
 import Graphics.Rectangle (Rectangle (..))
-import Graphics.Texture (loadTexture, renderTexture)
+import Graphics.Texture (renderTexture)
 import Render.Renderable (Renderable (..))
 import qualified SDL
 

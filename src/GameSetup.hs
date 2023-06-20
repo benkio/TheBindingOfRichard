@@ -11,11 +11,11 @@ import SDL.Mixer (Chunk, free, haltMusic, load, openAudio)
 import qualified SDL.Mixer as Mix (quit)
 import SDL.Video (Renderer, destroyTexture)
 
-data GameSetupMusic = GameSetupMusic
+newtype GameSetupMusic = GameSetupMusic
     { backgroundMusic :: [Chunk]
     }
 
-data GameSetupImage = GameSetupImage
+newtype GameSetupImage = GameSetupImage
     { playerTexture :: Texture
     }
 
@@ -35,7 +35,7 @@ withGameSetup gameLoop = do
 
     -- open device
     openAudio def 256
-    music <- load "./music/danzaMacabra.ogg"
+    bkMusic <- load "./music/danzaMacabra.ogg"
     haltMusic
 
     -- load player texture
@@ -46,7 +46,7 @@ withGameSetup gameLoop = do
     let gameSetup =
             GameSetup
                 { renderer = r
-                , music = GameSetupMusic{backgroundMusic = [music]}
+                , music = GameSetupMusic{backgroundMusic = [bkMusic]}
                 , image = GameSetupImage{playerTexture = pt}
                 , framerateManager = m
                 , windowSize = ws

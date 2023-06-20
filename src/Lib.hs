@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Lib (run) where
@@ -12,7 +11,6 @@ import Render.Renderable
 import SDL (pollEvents)
 import SDL.Framerate (delay_)
 import qualified SDL.Mixer as Mix
-import SDL.Video.Renderer (clear)
 
 -- TODO: Look at the sdl2-gfx for loading the framerate correctly
 run :: IO ()

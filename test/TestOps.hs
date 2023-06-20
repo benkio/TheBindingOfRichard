@@ -2,19 +2,20 @@ module TestOps (eventMap, arrowEventMap, quitEventMap, testGameState, buildKeypr
 
 import Control.Lens
 import GameEvent (GameEvent (..))
+import qualified GameSetup as GS (GameSetup (..), GameSetupImage (..))
 import qualified GameState as G (GameState (..), gameStatePlayerL)
 import Graphics.Point (Point (..))
 import qualified Model.Move as M
 import Model.Player (Player (..), PlayerPosition (..), playerPositionL, playerPositionPositionL)
 import qualified SDL
 
-testGameState :: G.GameState
-testGameState =
+testGameState :: GS.GameSetup -> G.GameState
+testGameState gs =
     G.GameState
         { G.player =
             Player
                 { playerPosition = PlayerPosition{position = Point{x = 50, y = 50}, roomId = 0, levelId = 0}
-                , playerTexture = undefined -- "./image/richard.png"
+                , playerTexture = (GS.playerTexture . GS.image) gs
                 }
         , G.levels = []
         }
