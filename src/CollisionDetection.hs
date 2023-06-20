@@ -3,7 +3,7 @@ module CollisionDetection (isWithinRoom) where
 import Graphics.Point (Point (..))
 import Graphics.Rectangle (height, topLeftCorner, width)
 import Model.Player (playerSize)
-import Model.Room (Room, innerSpace)
+import Model.Room (Room, toRectangle)
 
 isWithinRoom :: Point -> Room -> Bool
 isWithinRoom (Point{x = px, y = py}) r =
@@ -14,4 +14,4 @@ isWithinRoom (Point{x = px, y = py}) r =
   where
     playerHalfWidth = ((`div` 2) . fst) playerSize
     playerHalfHeight = ((`div` 2) . snd) playerSize
-    rect = innerSpace r
+    rect = toRectangle r

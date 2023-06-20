@@ -1,4 +1,4 @@
-module Model.Room (Room (..), roomWallsL, standardRoom, roomTopLeftCornerL, roomBottomLeftCornerL, roomTopRightCornerL, roomBottomRightCornerL, innerSpace, toInnerRoom) where
+module Model.Room (Room (..), roomWallsL, standardRoom, roomTopLeftCornerL, roomBottomLeftCornerL, roomTopRightCornerL, roomBottomRightCornerL, toRectangle, toInnerRoom) where
 
 import Control.Lens
 
@@ -47,8 +47,8 @@ toInnerRoom =
         . (roomBottomLeftCornerL %~ (\p -> p{x = x p + defaultThickness, y = y p - defaultThickness}))
         . (roomBottomRightCornerL %~ (\p -> p{x = x p - defaultThickness, y = y p - defaultThickness}))
 
-innerSpace :: Room -> R.Rectangle
-innerSpace r =
+toRectangle :: Room -> R.Rectangle
+toRectangle r =
     R.Rectangle
         { R.topLeftCorner = topLeftCorner r
         , R.width = (x . topRightCorner) r - (x . topLeftCorner) r
@@ -59,7 +59,7 @@ innerSpace r =
 
 instance Renderable Room where
     render r renderer = do
-        R.drawRectangle renderer (innerSpace r)
+        R.drawRectangle renderer (toRectangle r)
         mapM_ (`render` renderer) (view roomWallsL r)
 
 standardRoom :: CInt -> CInt -> Room
