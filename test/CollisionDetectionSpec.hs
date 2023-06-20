@@ -20,4 +20,5 @@ testIsWithinRoomInner =
 testIsWithinRoomOuter :: Test
 testIsWithinRoomOuter =
     TestCase $
-        assertBool "isWithinRoom return false because the point is not in the room" $ not (isWithinRoom (Point{x = 0, y = 0}) (standardRoom 100 100))
+        assertBool "isWithinRoom return false because the point is not in the room" $
+            not (isWithinRoom (Point{x = 0, y = 0}) (standardRoom 100 100))
