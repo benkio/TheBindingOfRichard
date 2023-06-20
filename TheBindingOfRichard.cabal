@@ -81,6 +81,7 @@ test-suite TheBindingOfRichard-test
   type: exitcode-stdio-1.0
   main-is: Main.hs
   other-modules:
+      CollisionDetectionSpec
       GameEventSpec
       GameStateSpec
       MoveSpec

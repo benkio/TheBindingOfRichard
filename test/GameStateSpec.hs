@@ -30,4 +30,5 @@ testTransformGameStateQuit =
 testTransformGameState :: Test
 testTransformGameState =
     TestCase $
-        traverse_ (\(e, _, f) -> assertEqual "Check the arrow case, expected movement" ((Just . f) testGameState) (transformGameState [e] defaultControls (gameState (100, 100)))) arrowEventMap
+        traverse_ (\(e, _, f) -> assertEqual "Check the arrow case, expected movement" ((Just . f) gs) (transformGameState [e] defaultControls gs)) arrowEventMap
+  where gs = gameState (100, 100)
