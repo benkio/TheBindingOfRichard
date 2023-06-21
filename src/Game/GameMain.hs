@@ -3,7 +3,7 @@
 module Game.GameMain (run) where
 
 import Control.Lens
-import Control.Monad (unless)
+import Control.Monad (unless, when)
 import qualified Data.Map as M (toList)
 import Game.GameState (GameState (..), transformGameState)
 import Game.Init.GameResources (gameResourceMusicBackgroundMusicL, gameResourcesGameResourceMusicL)
@@ -36,7 +36,7 @@ appLoop gameSetup state = do
     maybe
         (pure ())
         ( \newState -> do
-            if newState /= state then render newState (renderer gameSetup) (gameResources gameSetup) else pure ()
+            when (newState /= state) $ render newState (renderer gameSetup) (gameResources gameSetup)
             delay_ (framerateManager gameSetup)
             appLoop gameSetup newState
         )

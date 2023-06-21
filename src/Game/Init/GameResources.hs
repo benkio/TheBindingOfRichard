@@ -79,4 +79,4 @@ cleanupMusic (GameResourceMusic{backgroundMusic = bms}) = do
 
 cleanupImage :: GameResourceImages -> IO ()
 cleanupImage gri =
-    (mapM_ (destroyTexture . snd) . toList) $ view (gameResourceImagesTexturesL) gri
+    (mapM_ (destroyTexture . snd) . toList) $ view gameResourceImagesTexturesL gri
