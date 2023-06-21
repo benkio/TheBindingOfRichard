@@ -16,7 +16,7 @@ gameStateSpec :: GameSetup -> Test
 gameStateSpec gs =
     TestList
         [ TestLabel "initialState should correctly build the initial state" (testInitialState gs)
-        , TestLabel "transformGameState should return `Nothing` if the event is `Quit`" (testTransformGameStateQuit gs)
+        , TestLabel "transformGameState should return `Nothing` if the event is `Quit`" testTransformGameStateQuit
         , TestLabel "transformGameState should return `Just GameState` with the position properly updated if the event is an arrow event" (testTransformGameState gs)
         , TestLabel "transformGameState should return the same GameState if the move is illegal" (testTransformGameStateIllegalMove gs)
         ]
@@ -24,14 +24,14 @@ gameStateSpec gs =
 testInitialState :: GameSetup -> Test
 testInitialState gameSetup =
     TestCase $
-        assertEqual "Check expected game state construction" expectedGameState (testGameState gameSetup)
+        assertEqual "Check expected game state construction" expectedGameState testGameState
   where
     expectedGameState = (\gs -> gs{levels = []}) (gameState gameSetup)
 
-testTransformGameStateQuit :: GameSetup -> Test
-testTransformGameStateQuit gameSetup =
+testTransformGameStateQuit :: Test
+testTransformGameStateQuit =
     TestCase $
-        traverse_ (\(e, _, _) -> assertEqual "Check the quit case, expected Nothing" Nothing (transformGameState [e] defaultControls (testGameState gameSetup))) quitEventMap
+        traverse_ (\(e, _, _) -> assertEqual "Check the quit case, expected Nothing" Nothing (transformGameState [e] defaultControls testGameState)) quitEventMap
 
 testTransformGameState :: GameSetup -> Test
 testTransformGameState gs =

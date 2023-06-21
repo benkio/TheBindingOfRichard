@@ -1,6 +1,6 @@
 {-# LANGUAGE TupleSections #-}
 
-module GameResources (GameResources (..), cleanup, loadGameResources, gameResourceImagesTexturesL, gameResourcesGameResourceImagesL, gameResourceMusicBackgroundMusicL, gameResourcesGameResourceMusicL) where
+module GameResources (GameResources (..), cleanup, loadGameResources, gameResourceImagesTexturesL, gameResourcesGameResourceImagesL, gameResourceMusicBackgroundMusicL, gameResourcesGameResourceMusicL, texturesLocations) where
 
 import Control.Lens
 import Data.Default.Class (def)
