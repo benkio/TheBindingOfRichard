@@ -28,6 +28,7 @@ library
       Controls
       Game.Level1
       GameEvent
+      GameResources
       GameSetup
       GameState
       Graphics.Color

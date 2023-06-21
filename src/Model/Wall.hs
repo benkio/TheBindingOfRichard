@@ -32,5 +32,5 @@ wallToRectangle (Wall{start = Point{x = sx, y = sy}, end = Point{x = ex, y = ey}
     | otherwise = error $ printf "Can't build a wall from these 2 points: (%s, %s) - (%s, %s)" (show sx) (show sy) (show ex) (show ey)
 
 instance Renderable Wall where
-    render w renderer =
+    render w renderer _ =
         drawRectangle renderer (wallToRectangle w)

@@ -1,29 +1,17 @@
-module GameSetup (GameSetup (..), GameSetupImage (..), GameSetupMusic (..), withGameSetup) where
+module GameSetup (GameSetup (..), withGameSetup) where
 
-import Data.Default.Class (def)
 import Foreign.C.Types (CInt)
-import Graphics.Texture (loadTexture)
+import qualified GameResources as GR (GameResources (..), cleanup, loadGameResources)
 import qualified Graphics.Window as W (initializeWindow, windowSize)
-import SDL (Texture, initializeAll)
+import SDL (initializeAll)
 import SDL.Framerate (Manager, destroyManager, manager, set)
 import qualified SDL.Init as Init (quit)
-import SDL.Mixer (Chunk, free, haltMusic, load, openAudio)
-import qualified SDL.Mixer as Mix (quit)
-import SDL.Video (Renderer, destroyTexture)
-
-newtype GameSetupMusic = GameSetupMusic
-    { backgroundMusic :: [Chunk]
-    }
-
-newtype GameSetupImage = GameSetupImage
-    { playerTexture :: Texture
-    }
+import SDL.Video (Renderer)
 
 data GameSetup = GameSetup
     { renderer :: Renderer
-    , music :: GameSetupMusic
-    , image :: GameSetupImage
     , framerateManager :: Manager
+    , gameResources :: GR.GameResources
     , windowSize :: (CInt, CInt)
     }
 
@@ -33,21 +21,13 @@ withGameSetup gameLoop = do
     (_, r) <- W.initializeWindow
     ws <- W.windowSize
 
-    -- open device
-    openAudio def 256
-    bkMusic <- load "./music/danzaMacabra.ogg"
-    haltMusic
-
-    -- load player texture
-    pt <- loadTexture r "./image/richard.png"
-
     m <- manager
     set m 60
+    gr <- GR.loadGameResources r
     let gameSetup =
             GameSetup
                 { renderer = r
-                , music = GameSetupMusic{backgroundMusic = [bkMusic]}
-                , image = GameSetupImage{playerTexture = pt}
+                , gameResources = gr
                 , framerateManager = m
                 , windowSize = ws
                 }
@@ -56,16 +36,7 @@ withGameSetup gameLoop = do
     return result
 
 cleanup :: GameSetup -> IO ()
-cleanup (GameSetup{music = ms, framerateManager = m, image = is}) = do
-    cleanupMusic ms
-    cleanupImage is
+cleanup (GameSetup{framerateManager = m, gameResources = gr}) = do
+    GR.cleanup gr
     destroyManager m
     Init.quit
-
-cleanupMusic :: GameSetupMusic -> IO ()
-cleanupMusic (GameSetupMusic{backgroundMusic = bms}) = do
-    mapM_ free bms
-    Mix.quit
-
-cleanupImage :: GameSetupImage -> IO ()
-cleanupImage (GameSetupImage{playerTexture = pt}) = destroyTexture pt

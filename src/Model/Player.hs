@@ -1,15 +1,15 @@
-{-# OPTIONS_GHC -fno-warn-orphans #-}
-
 module Model.Player (Player (..), PlayerPosition (..), playerPositionL, playerPositionPositionL, playerPositionRoomIdL, playerPositionLevelIdL, playerSize) where
 
 import Control.Lens
+import qualified Data.Map as M (lookup)
 import Foreign.C.Types (CInt)
+import GameResources (gameResourceImagesTexturesL, gameResourcesGameResourceImagesL)
 import Graphics.Color (blueColor)
 import Graphics.Point (Point (..))
 import Graphics.Rectangle (Rectangle (..))
 import Graphics.Texture (renderTexture)
 import Render.Renderable (Renderable (..))
-import qualified SDL
+import Text.Printf
 
 data PlayerPosition = PlayerPosition
     { position :: Point
@@ -20,12 +20,9 @@ data PlayerPosition = PlayerPosition
 
 data Player = Player
     { playerPosition :: PlayerPosition
-    , playerTexture :: SDL.Texture
+    , playerTextureLocation :: FilePath
     }
     deriving (Show, Eq)
-
-instance Show SDL.Texture where
-    show _ = "player texture"
 
 playerSize :: (CInt, CInt)
 playerSize = (20, 20)
@@ -46,8 +43,14 @@ instance Renderable Player where
     render
         ( Player
                 { playerPosition = PlayerPosition{position = p}
-                , playerTexture = pt
+                , playerTextureLocation = ptl
                 }
             )
-        renderer =
-            renderTexture renderer pt Rectangle{topLeftCorner = p, width = fst playerSize, height = snd playerSize, fillColor = blueColor, borderColor = Nothing}
+        renderer
+        gr =
+            maybe
+                (error (printf "Player Texture Location %s not found in Game Resources" ptl))
+                (\pt -> renderTexture renderer pt Rectangle{topLeftCorner = p, width = fst playerSize, height = snd playerSize, fillColor = blueColor, borderColor = Nothing})
+                mpt
+          where
+            mpt = M.lookup ptl $ view (gameResourcesGameResourceImagesL . gameResourceImagesTexturesL) gr

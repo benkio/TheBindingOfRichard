@@ -43,10 +43,10 @@ transformGameState evs controls gs =
     foldl (\mst e -> mst >>= \st -> transformGameState' e controls st) (Just gs) evs
 
 instance Renderable GameState where
-    render (GameState{player = p, levels = ls}) renderer = do
+    render (GameState{player = p, levels = ls}) renderer gr = do
         windowToBlack renderer
-        mapM_ (`render` renderer) ls
-        render p renderer
+        mapM_ (\l -> render l renderer gr) ls
+        render p renderer gr
         present renderer
 
 isLegalState :: GameState -> Bool

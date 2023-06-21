@@ -17,5 +17,5 @@ levelLevelIdL :: L.Lens' Level Int
 levelLevelIdL = L.lens levelId (\level i -> level{levelId = i})
 
 instance Renderable Level where
-    render (Level{rooms = rs}) renderer =
-        mapM_ (`render` renderer) rs
+    render (Level{rooms = rs}) renderer gr =
+        mapM_ (\r -> render r renderer gr) rs

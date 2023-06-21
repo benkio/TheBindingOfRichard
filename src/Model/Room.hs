@@ -58,9 +58,9 @@ toRectangle r =
         }
 
 instance Renderable Room where
-    render r renderer = do
+    render r renderer gr = do
         R.drawRectangle renderer (toRectangle r)
-        mapM_ (`render` renderer) (view roomWallsL r)
+        mapM_ (\w -> render w renderer gr) (view roomWallsL r)
 
 standardRoom :: CInt -> CInt -> Room
 standardRoom ww wh =

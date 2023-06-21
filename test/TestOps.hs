@@ -2,7 +2,7 @@ module TestOps (eventMap, arrowEventMap, quitEventMap, testGameState, buildKeypr
 
 import Control.Lens
 import GameEvent (GameEvent (..))
-import qualified GameSetup as GS (GameSetup (..), GameSetupImage (..))
+import qualified GameSetup as GS (GameSetup (..))
 import qualified GameState as G (GameState (..), gameStatePlayerL)
 import Graphics.Point (Point (..))
 import qualified Model.Move as M
