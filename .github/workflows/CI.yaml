@@ -61,10 +61,10 @@ jobs:
       uses: haskell/actions/hlint-run@v2
       with:
         path: src/
-        fail-on: warning
+        fail-on: error
 
     - name: 'Run HLint test'
       uses: haskell/actions/hlint-run@v2
       with:
         path: test/
-        fail-on: warning
+        fail-on: error
