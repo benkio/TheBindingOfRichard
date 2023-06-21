@@ -1,16 +1,16 @@
-module GameState (GameState (..), transformGameState, gameStatePlayerL, gameStateLevelsL) where
+module Game.GameState (GameState (..), transformGameState, gameStatePlayerL, gameStateLevelsL) where
 
 import Control.Lens hiding (Level, levels)
-import Controls (Controls (..))
-import GameEvent (GameEvent (..), toGameEvent)
+import Game.GameEvent (GameEvent (..), toGameEvent)
+import Settings.Controls (Controls (..))
 
-import CollisionDetection (isWithinRoom)
+import Game.Model.Level (Level (..), levelRoomsL)
+import qualified Game.Model.Level as L
+import Game.Model.Move (movePoint)
+import Game.Model.Player (Player (..), playerPositionL, playerPositionLevelIdL, playerPositionPositionL, playerPositionRoomIdL)
+import Game.Model.Room (Room (..), toInnerRoom)
+import Game.Physics.CollisionDetection (isWithinRoom)
 import Graphics.Window (windowToBlack)
-import Model.Level (Level (..), levelRoomsL)
-import qualified Model.Level as L
-import Model.Move (movePoint)
-import Model.Player (Player (..), playerPositionL, playerPositionLevelIdL, playerPositionPositionL, playerPositionRoomIdL)
-import Model.Room (Room (..), toInnerRoom)
 import Render.Renderable
 import SDL (Event, present)
 

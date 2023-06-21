@@ -1,4 +1,4 @@
-module Model.Wall (Wall (..), wallStartL, wallEndL, defaultThickness) where
+module Game.Model.Wall (Wall (..), wallStartL, wallEndL, defaultThickness) where
 
 import Control.Lens
 import Foreign.C.Types (CInt)

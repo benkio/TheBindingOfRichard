@@ -1,7 +1,7 @@
-module Model.Level (Level (..), levelRoomsL, levelLevelIdL) where
+module Game.Model.Level (Level (..), levelRoomsL, levelLevelIdL) where
 
 import qualified Control.Lens as L
-import Model.Room (Room (..))
+import Game.Model.Room (Room (..))
 import Render.Renderable
 
 data Level = Level

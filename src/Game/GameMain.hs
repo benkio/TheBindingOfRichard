@@ -1,19 +1,19 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Lib (run) where
+module Game.GameMain (run) where
 
 import Control.Lens
 import Control.Monad (unless)
-import Controls (defaultControls)
 import qualified Data.Map as M (toList)
-import Game.Level1 (gameState)
-import GameResources (gameResourceMusicBackgroundMusicL, gameResourcesGameResourceMusicL)
-import GameSetup (GameSetup (..), withGameSetup)
-import GameState (GameState (..), transformGameState)
+import Game.GameState (GameState (..), transformGameState)
+import Game.Init.GameResources (gameResourceMusicBackgroundMusicL, gameResourcesGameResourceMusicL)
+import Game.Init.GameSetup (GameSetup (..), withGameSetup)
+import Game.Level.Level1 (gameState)
 import Render.Renderable
 import SDL (pollEvents)
 import SDL.Framerate (delay_)
 import qualified SDL.Mixer as Mix
+import Settings.Controls (defaultControls)
 
 -- TODO: Look at the sdl2-gfx for loading the framerate correctly
 run :: IO ()

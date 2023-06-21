@@ -1,8 +1,8 @@
-module CollisionDetectionSpec (collisionDetectionSpec) where
+module Game.Physics.CollisionDetectionSpec (collisionDetectionSpec) where
 
-import CollisionDetection (isWithinRoom)
+import Game.Model.Room (standardRoom)
+import Game.Physics.CollisionDetection (isWithinRoom)
 import Graphics.Point (Point (..))
-import Model.Room (standardRoom)
 import Test.HUnit
 
 collisionDetectionSpec :: Test

@@ -1,9 +1,9 @@
-module Model.Player (Player (..), PlayerPosition (..), playerPositionL, playerPositionPositionL, playerPositionRoomIdL, playerPositionLevelIdL, playerSize) where
+module Game.Model.Player (Player (..), PlayerPosition (..), playerPositionL, playerPositionPositionL, playerPositionRoomIdL, playerPositionLevelIdL, playerSize) where
 
 import Control.Lens
 import qualified Data.Map as M (lookup)
 import Foreign.C.Types (CInt)
-import GameResources (gameResourceImagesTexturesL, gameResourcesGameResourceImagesL)
+import Game.Init.GameResources (gameResourceImagesTexturesL, gameResourcesGameResourceImagesL)
 import Graphics.Color (blueColor)
 import Graphics.Point (Point (..))
 import Graphics.Rectangle (Rectangle (..))

@@ -1,13 +1,13 @@
-module GameStateSpec (gameStateSpec) where
+module Game.GameStateSpec (gameStateSpec) where
 
 import Control.Lens hiding (levels)
-import Controls (defaultControls)
 import Data.Foldable (traverse_)
-import Game.Level1 (gameState)
-import GameState (GameState (..), gameStatePlayerL, transformGameState)
+import Game.GameState (GameState (..), gameStatePlayerL, transformGameState)
+import Game.Level.Level1 (gameState)
+import Game.Model.Player (playerPositionL, playerPositionPositionL)
 import Graphics.Point (Point (..))
-import Model.Player (playerPositionL, playerPositionPositionL)
 import qualified SDL
+import Settings.Controls (defaultControls)
 import Test.HUnit
 import TestOps (arrowEventMap, buildKeypressEvent, quitEventMap, testGameState, testWindowSize)
 

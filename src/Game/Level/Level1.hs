@@ -1,11 +1,11 @@
-module Game.Level1 (gameState) where
+module Game.Level.Level1 (gameState) where
 
 import Foreign.C.Types (CInt)
-import GameState (GameState (..))
+import Game.GameState (GameState (..))
+import Game.Model.Level (Level (..))
+import qualified Game.Model.Player as P (Player (..), PlayerPosition (..))
+import Game.Model.Room (standardRoom)
 import Graphics.Point (Point (..))
-import Model.Level (Level (..))
-import qualified Model.Player as P (Player (..), PlayerPosition (..))
-import Model.Room (standardRoom)
 
 gameState :: (CInt, CInt) -> GameState
 gameState (ww, wh) =

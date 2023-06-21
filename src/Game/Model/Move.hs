@@ -1,7 +1,8 @@
-module Model.Move (Move (..), movePoint, stepSize) where
+module Game.Model.Move (Move (..), movePoint, stepSize) where
 
 import Foreign.C.Types (CInt)
 import Graphics.Point (Point (..))
+import Prelude hiding (Left, Right)
 
 data Move
     = Up
@@ -15,13 +16,13 @@ stepSize :: CInt
 stepSize = 10
 
 moveToValueX :: Move -> CInt
-moveToValueX Model.Move.Left = -stepSize
-moveToValueX Model.Move.Right = stepSize
+moveToValueX Left = -stepSize
+moveToValueX Right = stepSize
 moveToValueX _ = 0
 
 moveToValueY :: Move -> CInt
-moveToValueY Model.Move.Up = -stepSize
-moveToValueY Model.Move.Down = stepSize
+moveToValueY Up = -stepSize
+moveToValueY Down = stepSize
 moveToValueY _ = 0
 
 movePoint :: Move -> Point -> Point

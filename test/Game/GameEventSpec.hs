@@ -1,8 +1,8 @@
-module GameEventSpec (gameEventSpec) where
+module Game.GameEventSpec (gameEventSpec) where
 
-import Controls (defaultControls)
 import Data.Foldable (traverse_)
-import GameEvent (toGameEvent)
+import Game.GameEvent (toGameEvent)
+import Settings.Controls (defaultControls)
 import Test.HUnit
 import TestOps (eventMap)
 

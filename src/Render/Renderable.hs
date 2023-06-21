@@ -1,6 +1,6 @@
 module Render.Renderable (Renderable (..)) where
 
-import GameResources (GameResources (..))
+import Game.Init.GameResources (GameResources (..))
 
 import SDL.Video (Renderer)
 

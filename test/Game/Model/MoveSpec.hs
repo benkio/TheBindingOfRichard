@@ -1,9 +1,9 @@
 {-# LANGUAGE LambdaCase #-}
 
-module MoveSpec (moveSpec) where
+module Game.Model.MoveSpec (moveSpec) where
 
+import qualified Game.Model.Move as M
 import Graphics.Point (Point (..))
-import qualified Model.Move as M
 import Test.HUnit
 
 moveSpec :: Test
