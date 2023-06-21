@@ -1,16 +1,16 @@
-module GameState (GameState (..), transformGameState, gameStatePlayerL, gameStateLevelsL) where
+module Game.GameState (GameState (..), transformGameState, gameStatePlayerL, gameStateLevelsL) where
 
 import Control.Lens hiding (Level, levels)
-import Controls (Controls (..))
-import GameEvent (GameEvent (..), toGameEvent)
+import Game.GameEvent (GameEvent (..), toGameEvent)
+import Settings.Controls (Controls (..))
 
-import CollisionDetection (isWithinRoom)
+import Game.Model.Level (Level (..), levelRoomsL)
+import qualified Game.Model.Level as L
+import Game.Model.Move (movePoint)
+import Game.Model.Player (Player (..), playerPositionL, playerPositionLevelIdL, playerPositionPositionL, playerPositionRoomIdL)
+import Game.Model.Room (Room (..), toInnerRoom)
+import Game.Physics.CollisionDetection (isWithinRoom)
 import Graphics.Window (windowToBlack)
-import Model.Level (Level (..), levelRoomsL)
-import qualified Model.Level as L
-import Model.Move (movePoint)
-import Model.Player (Player (..), playerPositionL, playerPositionLevelIdL, playerPositionPositionL, playerPositionRoomIdL)
-import Model.Room (Room (..), toInnerRoom)
 import Render.Renderable
 import SDL (Event, present)
 
@@ -37,15 +37,16 @@ transformGameState'' _ Quit = Nothing
 transformGameState' :: Event -> Controls -> GameState -> Maybe GameState
 transformGameState' ev controls gs = transformGameState'' gs $ toGameEvent ev controls
 
+-- TODO: change this. it returns Nothing if nothing changed or GameExit if the game terminates!
 transformGameState :: [Event] -> Controls -> GameState -> Maybe GameState
 transformGameState evs controls gs =
     foldl (\mst e -> mst >>= \st -> transformGameState' e controls st) (Just gs) evs
 
 instance Renderable GameState where
-    render (GameState{player = p, levels = ls}) renderer = do
+    render (GameState{player = p, levels = ls}) renderer gr = do
         windowToBlack renderer
-        mapM_ (`render` renderer) ls
-        render p renderer
+        mapM_ (\l -> render l renderer gr) ls
+        render p renderer gr
         present renderer
 
 isLegalState :: GameState -> Bool

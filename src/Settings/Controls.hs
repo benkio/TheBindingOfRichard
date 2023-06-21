@@ -1,4 +1,4 @@
-module Controls (Controls (..), defaultControls) where
+module Settings.Controls (Controls (..), defaultControls) where
 
 import SDL.Input.Keyboard.Codes
 

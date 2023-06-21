@@ -1,15 +1,15 @@
-module GameStateSpec (gameStateSpec) where
+module Game.GameStateSpec (gameStateSpec) where
 
 import Control.Lens hiding (levels)
-import Controls (defaultControls)
 import Data.Foldable (traverse_)
-import Game.Level1 (gameState)
-import GameState (GameState (..), gameStatePlayerL, transformGameState)
+import Game.GameState (GameState (..), gameStatePlayerL, transformGameState)
+import Game.Level.Level1 (gameState)
+import Game.Model.Player (playerPositionL, playerPositionPositionL)
 import Graphics.Point (Point (..))
-import Model.Player (playerPositionL, playerPositionPositionL)
 import qualified SDL
+import Settings.Controls (defaultControls)
 import Test.HUnit
-import TestOps (arrowEventMap, buildKeypressEvent, quitEventMap, testGameState)
+import TestOps (arrowEventMap, buildKeypressEvent, quitEventMap, testGameState, testWindowSize)
 
 gameStateSpec :: Test
 gameStateSpec =
@@ -23,9 +23,9 @@ gameStateSpec =
 testInitialState :: Test
 testInitialState =
     TestCase $
-        assertEqual "Check expected game state construction" testGameState expectedGameState
+        assertEqual "Check expected game state construction" expectedGameState testGameState
   where
-    expectedGameState = (\gs -> gs{levels = []}) $ gameState (100, 100)
+    expectedGameState = (\gs -> gs{levels = []}) (gameState testWindowSize)
 
 testTransformGameStateQuit :: Test
 testTransformGameStateQuit =
@@ -35,9 +35,7 @@ testTransformGameStateQuit =
 testTransformGameState :: Test
 testTransformGameState =
     TestCase $
-        traverse_ (\(e, _, f) -> assertEqual "Check the arrow case, expected movement" ((Just . f) gs) (transformGameState [e] defaultControls gs)) arrowEventMap
-  where
-    gs = gameState (100, 100)
+        traverse_ (\(e, _, f) -> assertEqual "Check the arrow case, expected movement" ((Just . f . gameState) testWindowSize) (transformGameState [e] defaultControls (gameState testWindowSize))) arrowEventMap
 
 testTransformGameStateIllegalMove :: Test
 testTransformGameStateIllegalMove =
@@ -56,5 +54,5 @@ testTransformGameStateIllegalMove =
             )
         ]
   where
-    gs = set (gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 25, y = 25}) $ gameState (100, 100)
-    gs' = set (gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 73, y = 73}) $ gameState (100, 100)
+    gs = set (gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 25, y = 25}) (gameState testWindowSize)
+    gs' = set (gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 73, y = 73}) (gameState testWindowSize)

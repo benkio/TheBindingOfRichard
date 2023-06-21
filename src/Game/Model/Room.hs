@@ -1,12 +1,12 @@
-module Model.Room (Room (..), roomWallsL, standardRoom, roomTopLeftCornerL, roomBottomLeftCornerL, roomTopRightCornerL, roomBottomRightCornerL, toRectangle, toInnerRoom) where
+module Game.Model.Room (Room (..), roomWallsL, standardRoom, roomTopLeftCornerL, roomBottomLeftCornerL, roomTopRightCornerL, roomBottomRightCornerL, toRectangle, toInnerRoom) where
 
 import Control.Lens
 
 import Foreign.C.Types (CInt)
+import Game.Model.Wall (Wall (..), defaultThickness)
 import Graphics.Color (Color (..), lightBrownColor)
 import Graphics.Point (Point (..))
 import qualified Graphics.Rectangle as R (Rectangle (..), drawRectangle)
-import Model.Wall (Wall (..), defaultThickness)
 import Render.Renderable
 
 data Room = Room
@@ -58,9 +58,9 @@ toRectangle r =
         }
 
 instance Renderable Room where
-    render r renderer = do
+    render r renderer gr = do
         R.drawRectangle renderer (toRectangle r)
-        mapM_ (`render` renderer) (view roomWallsL r)
+        mapM_ (\w -> render w renderer gr) (view roomWallsL r)
 
 standardRoom :: CInt -> CInt -> Room
 standardRoom ww wh =

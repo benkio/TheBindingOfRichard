@@ -1,9 +1,9 @@
-module CollisionDetection (isWithinRoom) where
+module Game.Physics.CollisionDetection (isWithinRoom) where
 
+import Game.Model.Player (playerSize)
+import Game.Model.Room (Room, toRectangle)
 import Graphics.Point (Point (..))
 import Graphics.Rectangle (height, topLeftCorner, width)
-import Model.Player (playerSize)
-import Model.Room (Room, toRectangle)
 
 isWithinRoom :: Point -> Room -> Bool
 isWithinRoom (Point{x = px, y = py}) r =

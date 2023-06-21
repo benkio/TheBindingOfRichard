@@ -24,22 +24,25 @@ source-repository head
 
 library
   exposed-modules:
-      CollisionDetection
-      Controls
-      Game.Level1
-      GameEvent
-      GameState
+      Game.GameEvent
+      Game.GameMain
+      Game.GameState
+      Game.Init.GameResources
+      Game.Init.GameSetup
+      Game.Level.Level1
+      Game.Model.Level
+      Game.Model.Move
+      Game.Model.Player
+      Game.Model.Room
+      Game.Model.Wall
+      Game.Physics.CollisionDetection
       Graphics.Color
       Graphics.Point
       Graphics.Rectangle
+      Graphics.Texture
       Graphics.Window
-      Lib
-      Model.Level
-      Model.Move
-      Model.Player
-      Model.Room
-      Model.Wall
       Render.Renderable
+      Settings.Controls
   other-modules:
       Paths_TheBindingOfRichard
   hs-source-dirs:
@@ -81,10 +84,10 @@ test-suite TheBindingOfRichard-test
   type: exitcode-stdio-1.0
   main-is: Main.hs
   other-modules:
-      CollisionDetectionSpec
-      GameEventSpec
-      GameStateSpec
-      MoveSpec
+      Game.GameEventSpec
+      Game.GameStateSpec
+      Game.Model.MoveSpec
+      Game.Physics.CollisionDetectionSpec
       TestOps
       Paths_TheBindingOfRichard
   hs-source-dirs:
