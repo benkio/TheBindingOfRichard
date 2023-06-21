@@ -20,7 +20,7 @@ run :: IO ()
 run =
     withGameSetup
         ( \gameSetup -> do
-            let state = gameState gameSetup
+            let state = gameState (windowSize gameSetup)
             render state (renderer gameSetup) (gameResources gameSetup)
             appLoop gameSetup state
         )

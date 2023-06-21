@@ -4,42 +4,41 @@ import Control.Lens hiding (levels)
 import Controls (defaultControls)
 import Data.Foldable (traverse_)
 import Game.Level1 (gameState)
-import GameSetup (GameSetup (..))
 import GameState (GameState (..), gameStatePlayerL, transformGameState)
 import Graphics.Point (Point (..))
 import Model.Player (playerPositionL, playerPositionPositionL)
 import qualified SDL
 import Test.HUnit
-import TestOps (arrowEventMap, buildKeypressEvent, quitEventMap, testGameState)
+import TestOps (arrowEventMap, buildKeypressEvent, quitEventMap, testGameState, testWindowSize)
 
-gameStateSpec :: GameSetup -> Test
-gameStateSpec gs =
+gameStateSpec :: Test
+gameStateSpec =
     TestList
-        [ TestLabel "initialState should correctly build the initial state" (testInitialState gs)
+        [ TestLabel "initialState should correctly build the initial state" testInitialState
         , TestLabel "transformGameState should return `Nothing` if the event is `Quit`" testTransformGameStateQuit
-        , TestLabel "transformGameState should return `Just GameState` with the position properly updated if the event is an arrow event" (testTransformGameState gs)
-        , TestLabel "transformGameState should return the same GameState if the move is illegal" (testTransformGameStateIllegalMove gs)
+        , TestLabel "transformGameState should return `Just GameState` with the position properly updated if the event is an arrow event" testTransformGameState
+        , TestLabel "transformGameState should return the same GameState if the move is illegal" testTransformGameStateIllegalMove
         ]
 
-testInitialState :: GameSetup -> Test
-testInitialState gameSetup =
+testInitialState :: Test
+testInitialState =
     TestCase $
         assertEqual "Check expected game state construction" expectedGameState testGameState
   where
-    expectedGameState = (\gs -> gs{levels = []}) (gameState gameSetup)
+    expectedGameState = (\gs -> gs{levels = []}) (gameState testWindowSize)
 
 testTransformGameStateQuit :: Test
 testTransformGameStateQuit =
     TestCase $
         traverse_ (\(e, _, _) -> assertEqual "Check the quit case, expected Nothing" Nothing (transformGameState [e] defaultControls testGameState)) quitEventMap
 
-testTransformGameState :: GameSetup -> Test
-testTransformGameState gs =
+testTransformGameState :: Test
+testTransformGameState =
     TestCase $
-        traverse_ (\(e, _, f) -> assertEqual "Check the arrow case, expected movement" ((Just . f . gameState) gs) (transformGameState [e] defaultControls (gameState gs))) arrowEventMap
+        traverse_ (\(e, _, f) -> assertEqual "Check the arrow case, expected movement" ((Just . f . gameState) testWindowSize) (transformGameState [e] defaultControls (gameState testWindowSize))) arrowEventMap
 
-testTransformGameStateIllegalMove :: GameSetup -> Test
-testTransformGameStateIllegalMove gameSetup =
+testTransformGameStateIllegalMove :: Test
+testTransformGameStateIllegalMove =
     TestList
         [ TestCase
             ( assertEqual "Illegal move Left provided, return the same gamestate" (Just gs) (transformGameState [buildKeypressEvent SDL.KeycodeLeft] defaultControls gs)
@@ -55,5 +54,5 @@ testTransformGameStateIllegalMove gameSetup =
             )
         ]
   where
-    gs = set (gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 25, y = 25}) (gameState gameSetup)
-    gs' = set (gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 73, y = 73}) (gameState gameSetup)
+    gs = set (gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 25, y = 25}) (gameState testWindowSize)
+    gs' = set (gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 73, y = 73}) (gameState testWindowSize)

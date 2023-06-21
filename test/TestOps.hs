@@ -1,6 +1,7 @@
-module TestOps (eventMap, arrowEventMap, quitEventMap, testGameState, buildKeypressEvent) where
+module TestOps (eventMap, arrowEventMap, quitEventMap, testGameState, buildKeypressEvent, testWindowSize) where
 
 import Control.Lens
+import Foreign.C.Types (CInt)
 import GameEvent (GameEvent (..))
 import GameResources (texturesLocations)
 import qualified GameState as G (GameState (..), gameStatePlayerL)
@@ -8,6 +9,9 @@ import Graphics.Point (Point (..))
 import qualified Model.Move as M
 import Model.Player (Player (..), PlayerPosition (..), playerPositionL, playerPositionPositionL)
 import qualified SDL
+
+testWindowSize :: (CInt, CInt)
+testWindowSize = (100, 100)
 
 testGameState :: G.GameState
 testGameState =
