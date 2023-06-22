@@ -4,10 +4,10 @@ import Control.Lens
 import Foreign.C.Types (CInt)
 import Game.GameEvent (GameEvent (..))
 import qualified Game.GameState as G (GameState (..), gameStatePlayerL)
-import Game.Init.GameResources (texturesLocations)
 import qualified Game.Model.Move as M
 import Game.Model.Player (Player (..), PlayerPosition (..), playerPositionL, playerPositionPositionL)
 import Graphics.Point (Point (..))
+import Init.GameResources (texturesLocations)
 import qualified SDL
 
 testWindowSize :: (CInt, CInt)

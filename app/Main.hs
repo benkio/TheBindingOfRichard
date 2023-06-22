@@ -1,6 +1,8 @@
 module Main (main) where
 
-import Game.GameMain (run)
+import Menu.MenuMain (run)
+
+--import Game.GameMain (run)
 
 main :: IO ()
 main = run

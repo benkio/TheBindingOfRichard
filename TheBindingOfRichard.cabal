@@ -27,8 +27,6 @@ library
       Game.GameEvent
       Game.GameMain
       Game.GameState
-      Game.Init.GameResources
-      Game.Init.GameSetup
       Game.Level.Level1
       Game.Model.Level
       Game.Model.Move
@@ -41,6 +39,14 @@ library
       Graphics.Rectangle
       Graphics.Texture
       Graphics.Window
+      Init.GameResources
+      Init.GameSetup
+      Menu.Menu
+      Menu.MenuMain
+      Menu.MenuState
+      Menu.Model.Menu
+      Menu.Model.MenuOption
+      Menu.Model.MenuOption.MenuOptionButton
       Render.Renderable
       Settings.Controls
   other-modules:
@@ -57,6 +63,8 @@ library
     , sdl2-gfx
     , sdl2-image
     , sdl2-mixer
+    , sdl2-ttf
+    , text
     , vector
   default-language: Haskell2010
 
@@ -77,6 +85,8 @@ executable TheBindingOfRichard-exe
     , sdl2-gfx
     , sdl2-image
     , sdl2-mixer
+    , sdl2-ttf
+    , text
     , vector
   default-language: Haskell2010
 
@@ -104,5 +114,7 @@ test-suite TheBindingOfRichard-test
     , sdl2-gfx
     , sdl2-image
     , sdl2-mixer
+    , sdl2-ttf
+    , text
     , vector
   default-language: Haskell2010

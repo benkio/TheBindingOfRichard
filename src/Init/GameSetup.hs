@@ -1,8 +1,8 @@
-module Game.Init.GameSetup (GameSetup (..), withGameSetup) where
+module Init.GameSetup (GameSetup (..), withGameSetup) where
 
 import Foreign.C.Types (CInt)
-import qualified Game.Init.GameResources as GR (GameResources (..), cleanup, loadGameResources)
 import qualified Graphics.Window as W (initializeWindow, windowSize)
+import qualified Init.GameResources as GR (GameResources (..), cleanup, loadGameResources)
 import SDL (initializeAll)
 import SDL.Framerate (Manager, destroyManager, manager, set)
 import qualified SDL.Init as Init (quit)

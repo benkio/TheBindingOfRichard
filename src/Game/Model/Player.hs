@@ -3,11 +3,11 @@ module Game.Model.Player (Player (..), PlayerPosition (..), playerPositionL, pla
 import Control.Lens
 import qualified Data.Map as M (lookup)
 import Foreign.C.Types (CInt)
-import Game.Init.GameResources (gameResourceImagesTexturesL, gameResourcesGameResourceImagesL)
 import Graphics.Color (blueColor)
 import Graphics.Point (Point (..))
 import Graphics.Rectangle (Rectangle (..))
 import Graphics.Texture (renderTexture)
+import Init.GameResources (gameResourceImagesTexturesL, gameResourcesGameResourceImagesL)
 import Render.Renderable (Renderable (..))
 import Text.Printf
 
