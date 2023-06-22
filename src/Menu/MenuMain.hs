@@ -11,13 +11,13 @@ run :: IO ()
 run =
     withGameSetup
         ( \gameSetup -> do
-            render menu (renderer gameSetup) (gameResources gameSetup)
+            render (menu (windowSize gameSetup)) (renderer gameSetup) (gameResources gameSetup)
             menuLoop gameSetup $ MenuState{selectedMenu = 0, selectedOption = 0}
         )
 
 menuLoop :: GameSetup -> MenuState -> IO ()
 menuLoop gameSetup state = do
     _ <- pollEvents
-    render menu (renderer gameSetup) (gameResources gameSetup)
+    render (menu (windowSize gameSetup)) (renderer gameSetup) (gameResources gameSetup)
     delay_ (framerateManager gameSetup)
     menuLoop gameSetup state

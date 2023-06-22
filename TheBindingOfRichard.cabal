@@ -37,6 +37,7 @@ library
       Graphics.Color
       Graphics.Point
       Graphics.Rectangle
+      Graphics.Text
       Graphics.Texture
       Graphics.Window
       Init.GameResources
