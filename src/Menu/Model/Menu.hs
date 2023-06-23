@@ -1,5 +1,8 @@
 module Menu.Model.Menu (Menu (..)) where
 
+import SDL (Event, keysymKeycode)
+
+import Settings.Controls (Controls (..))
 import Control.Lens
 import Control.Monad (unless)
 import qualified Data.Map as M (lookup)
@@ -65,3 +68,15 @@ instance Renderable Menu where
           where
             mbgit = M.lookup bgi $ view (gameResourcesGameResourceImagesL . gameResourceImagesTexturesL) gr
             mbgm = M.lookup bgm $ view (gameResourcesGameResourceMusicL . gameResourceMusicBackgroundMusicL) gr
+
+-- TODO: before implementing this, refactor the game event and move: move them to top level since those will be used by both menus and in the game
+transformMenu'' :: Menu -> GameEvent -> Maybe Menu
+transformMenu'' gs (GE move) = undefined
+transformMenu'' _ Quit = Nothing
+
+transformMenu' :: Event -> Controls -> Menu -> Maybe Menu
+transformMenu' ev controls gs = transformMenu'' gs $ toGameEvent ev controls
+
+transformMenu :: [Event] -> Controls -> Menu -> Maybe Menu
+transformMenu evs controls m =
+    foldl (\mm e -> mm >>= \st -> transformMenu' e controls st) (Just m) evs
