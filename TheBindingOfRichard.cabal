@@ -34,6 +34,7 @@ library
       Game.Model.Room
       Game.Model.Wall
       Game.Physics.CollisionDetection
+      Graphics.Button
       Graphics.Color
       Graphics.Point
       Graphics.Rectangle
