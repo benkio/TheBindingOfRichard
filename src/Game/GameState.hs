@@ -37,7 +37,6 @@ transformGameState'' _ Quit = Nothing
 transformGameState' :: Event -> Controls -> GameState -> Maybe GameState
 transformGameState' ev controls gs = transformGameState'' gs $ toGameEvent ev controls
 
--- TODO: change this. it returns Nothing if nothing changed or GameExit if the game terminates!
 transformGameState :: [Event] -> Controls -> GameState -> Maybe GameState
 transformGameState evs controls gs =
     foldl (\mst e -> mst >>= \st -> transformGameState' e controls st) (Just gs) evs

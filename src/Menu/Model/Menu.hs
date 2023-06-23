@@ -34,8 +34,8 @@ data Menu = Menu
 instance Renderable Menu where
     render
         ( Menu
-                { --options = ops,
-                title = t
+                { options = ops
+                , title = t
                 , menuBackgroundImageLocation = bgi
                 , menuBackgroundMusicLocation = bgm
                 }
@@ -59,8 +59,8 @@ instance Renderable Menu where
 
             -- Render title
             render t renderer gr
-            -- TODO: start background music
-            -- TODO: Render Options mapM_ (\l -> render l renderer gr) ls
+            -- Render Options
+            mapM_ (\o -> render o renderer gr) ops
             present renderer
           where
             mbgit = M.lookup bgi $ view (gameResourcesGameResourceImagesL . gameResourceImagesTexturesL) gr
