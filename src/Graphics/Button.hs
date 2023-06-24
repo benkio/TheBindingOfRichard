@@ -12,7 +12,7 @@ data Button = Button
     , text :: T.Text
     , selected :: Bool
     }
-    deriving (Eq)
+    deriving (Show, Eq)
 
 buildButton :: Point -> (CInt, CInt) -> Color -> Color -> FilePath -> String -> Button
 buildButton p (bw, bh) bc tc fl tv =
@@ -48,4 +48,5 @@ instance Renderable Button where
         drawRectangle r rect
         render (text b) r gr
       where
-        rect = if selected b then (rectangle b){borderColor = Just greenColor} else rectangle b
+        r' = rectangle b
+        rect = if selected b then r'{borderColor = Just greenColor} else r'

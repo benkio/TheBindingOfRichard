@@ -2,11 +2,13 @@ module Menu.MenuState (MenuState (..), transformMenuState, initialMenu) where
 
 import SDL (present)
 
+import Debug.Trace
 import Foreign.C.Types (CInt)
 import Graphics.Button (buildButton)
 import Graphics.Color (blackColor, lightBrownColor, whiteColor)
 import Graphics.Point (Point (..))
 import Graphics.Text (Text (..))
+import Graphics.Window (windowToBlack)
 import Menu.Model.Menu (Menu (..), changeSelectedOption, getSelectedOptionId, menuOptionIds)
 import Menu.Model.MenuOption (MenuOption (..), select)
 import Menu.Model.MenuOption.MenuOptionButton (MenuOptionButton (..))
@@ -15,13 +17,14 @@ import Model.Move (Move (..))
 import Render.Renderable (Renderable (..))
 import qualified SDL as S (Event)
 import Settings.Controls (Controls)
+import Text.Printf
 
-newtype MenuState = MenuState {menu :: Menu} deriving (Eq)
+newtype MenuState = MenuState {menu :: Menu} deriving (Eq, Show)
 
 transformMenuState'' :: MenuState -> Event -> Maybe MenuState
 transformMenuState'' (MenuState{menu = m}) (GE move)
-    | move == Up && soid `elem` (menuOptionIds m) = Just $ MenuState{menu = changeSelectedOption m (soid - 1)}
-    | move == Down && soid `elem` (menuOptionIds m) = Just $ MenuState{menu = changeSelectedOption m (soid + 1)}
+    | move == Up && (soid - 1) `elem` (menuOptionIds m) = Just $ MenuState{menu = changeSelectedOption m (soid - 1)}
+    | move == Down && (soid + 1) `elem` (menuOptionIds m) = Just $ MenuState{menu = changeSelectedOption m (soid + 1)}
     | otherwise = Just (MenuState{menu = m})
   where
     soid = getSelectedOptionId m
@@ -95,5 +98,6 @@ initialMenu (windowWidth, windowHeight) =
 
 instance Renderable MenuState where
     render (MenuState{menu = m}) renderer gr = do
+        windowToBlack renderer
         render m renderer gr
         present renderer

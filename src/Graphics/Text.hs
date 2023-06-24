@@ -23,7 +23,7 @@ data Text = Text
     , color :: Color
     , position :: Point
     }
-    deriving (Eq)
+    deriving (Show, Eq)
 
 instance Renderable Text where
     render

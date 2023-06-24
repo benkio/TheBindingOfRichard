@@ -9,7 +9,7 @@ data MenuOptionButton = MenuOptionButton
     , targetMenu :: Int
     , button :: Button
     }
-    deriving (Eq)
+    deriving (Show, Eq)
 
 instance Renderable MenuOptionButton where
     render m r gr =

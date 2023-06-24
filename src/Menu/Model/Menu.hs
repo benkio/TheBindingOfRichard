@@ -9,7 +9,6 @@ import Graphics.Point (Point (..))
 import Graphics.Rectangle (Rectangle (..))
 import Graphics.Text (Text)
 import Graphics.Texture (renderTexture)
-import Graphics.Window (windowToBlack)
 import qualified Graphics.Window as W (windowSize)
 import Init.GameResources (
     gameResourceImagesTexturesL,
@@ -29,7 +28,7 @@ data Menu = Menu
     , menuBackgroundImageLocation :: String
     , menuBackgroundMusicLocation :: String
     }
-    deriving (Eq)
+    deriving (Eq, Show)
 
 menuOptionIds :: Menu -> [Int]
 menuOptionIds = fmap menuOptionId . options
@@ -53,9 +52,6 @@ instance Renderable Menu where
             )
         renderer
         gr = do
-            -- Clean window
-            windowToBlack renderer
-
             -- Window Size and step
             (windowWidth, windowHeight) <- W.windowSize -- TODO: This should come from the gamesetup and we should not have to get it here
             -- Play background Music
