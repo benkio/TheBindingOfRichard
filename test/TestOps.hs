@@ -2,12 +2,12 @@ module TestOps (eventMap, arrowEventMap, quitEventMap, testGameState, buildKeypr
 
 import Control.Lens
 import Foreign.C.Types (CInt)
-import Game.GameEvent (GameEvent (..))
 import qualified Game.GameState as G (GameState (..), gameStatePlayerL)
-import qualified Game.Model.Move as M
 import Game.Model.Player (Player (..), PlayerPosition (..), playerPositionL, playerPositionPositionL)
 import Graphics.Point (Point (..))
 import Init.GameResources (texturesLocations)
+import Model.Event (Event (..))
+import qualified Model.Move as M
 import qualified SDL
 
 testWindowSize :: (CInt, CInt)
@@ -24,19 +24,19 @@ testGameState =
         , G.levels = []
         }
 
-eventMap :: [(SDL.Event, GameEvent, G.GameState -> G.GameState)]
+eventMap :: [(SDL.Event, Event, G.GameState -> G.GameState)]
 eventMap =
     arrowEventMap ++ quitEventMap
 
-quitEventMap :: [(SDL.Event, GameEvent, G.GameState -> G.GameState)]
-quitEventMap = [(buildKeypressEvent SDL.KeycodeQ, Game.GameEvent.Quit, id)]
+quitEventMap :: [(SDL.Event, Event, G.GameState -> G.GameState)]
+quitEventMap = [(buildKeypressEvent SDL.KeycodeQ, Model.Event.Quit, id)]
 
-arrowEventMap :: [(SDL.Event, GameEvent, G.GameState -> G.GameState)]
+arrowEventMap :: [(SDL.Event, Event, G.GameState -> G.GameState)]
 arrowEventMap =
-    [ (buildKeypressEvent SDL.KeycodeUp, Game.GameEvent.GE M.Up, set (G.gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 50, y = 50 - M.stepSize}))
-    , (buildKeypressEvent SDL.KeycodeDown, Game.GameEvent.GE M.Down, set (G.gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 50, y = 50 + M.stepSize}))
-    , (buildKeypressEvent SDL.KeycodeLeft, Game.GameEvent.GE M.Left, set (G.gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 50 - M.stepSize, y = 50}))
-    , (buildKeypressEvent SDL.KeycodeRight, Game.GameEvent.GE M.Right, set (G.gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 50 + M.stepSize, y = 50}))
+    [ (buildKeypressEvent SDL.KeycodeUp, Model.Event.GE M.Up, set (G.gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 50, y = 50 - M.stepSize}))
+    , (buildKeypressEvent SDL.KeycodeDown, Model.Event.GE M.Down, set (G.gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 50, y = 50 + M.stepSize}))
+    , (buildKeypressEvent SDL.KeycodeLeft, Model.Event.GE M.Left, set (G.gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 50 - M.stepSize, y = 50}))
+    , (buildKeypressEvent SDL.KeycodeRight, Model.Event.GE M.Right, set (G.gameStatePlayerL . playerPositionL . playerPositionPositionL) (Point{x = 50 + M.stepSize, y = 50}))
     ]
 
 buildKeypressEvent :: SDL.Keycode -> SDL.Event

@@ -24,12 +24,10 @@ source-repository head
 
 library
   exposed-modules:
-      Game.GameEvent
       Game.GameMain
       Game.GameState
       Game.Level.Level1
       Game.Model.Level
-      Game.Model.Move
       Game.Model.Player
       Game.Model.Room
       Game.Model.Wall
@@ -43,12 +41,13 @@ library
       Graphics.Window
       Init.GameResources
       Init.GameSetup
-      Menu.Menu
       Menu.MenuMain
       Menu.MenuState
       Menu.Model.Menu
       Menu.Model.MenuOption
       Menu.Model.MenuOption.MenuOptionButton
+      Model.Event
+      Model.Move
       Render.Renderable
       Settings.Controls
   other-modules:
@@ -96,10 +95,10 @@ test-suite TheBindingOfRichard-test
   type: exitcode-stdio-1.0
   main-is: Main.hs
   other-modules:
-      Game.GameEventSpec
       Game.GameStateSpec
-      Game.Model.MoveSpec
       Game.Physics.CollisionDetectionSpec
+      Model.EventSpec
+      Model.MoveSpec
       TestOps
       Paths_TheBindingOfRichard
   hs-source-dirs:

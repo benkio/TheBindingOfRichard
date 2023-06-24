@@ -1,18 +1,19 @@
 module Game.GameState (GameState (..), transformGameState, gameStatePlayerL, gameStateLevelsL) where
 
 import Control.Lens hiding (Level, levels)
-import Game.GameEvent (GameEvent (..), toGameEvent)
-import Settings.Controls (Controls (..))
+import Model.Event (Event (..), toEventDefaultControl)
+import Settings.Controls (Controls)
 
 import Game.Model.Level (Level (..), levelRoomsL)
 import qualified Game.Model.Level as L
-import Game.Model.Move (movePoint)
 import Game.Model.Player (Player (..), playerPositionL, playerPositionLevelIdL, playerPositionPositionL, playerPositionRoomIdL)
 import Game.Model.Room (Room (..), toInnerRoom)
 import Game.Physics.CollisionDetection (isWithinRoom)
 import Graphics.Window (windowToBlack)
+import Model.Move (movePoint)
 import Render.Renderable
-import SDL (Event, present)
+import SDL (present)
+import qualified SDL as S (Event)
 
 data GameState = GameState
     { player :: Player
@@ -26,18 +27,22 @@ gameStatePlayerL = lens player (\state p -> state{player = p})
 gameStateLevelsL :: Fold GameState Level
 gameStateLevelsL = folding levels
 
-transformGameState'' :: GameState -> GameEvent -> Maybe GameState
+transformGameState'' :: GameState -> Event -> Maybe GameState
 transformGameState'' gs (GE move)
     | isLegalState gs' = Just gs'
     | otherwise = Just gs
   where
     gs' = over (gameStatePlayerL . playerPositionL . playerPositionPositionL) (movePoint move) gs
 transformGameState'' _ Quit = Nothing
+transformGameState'' _ Interact = Nothing -- TODO: Implement
 
-transformGameState' :: Event -> Controls -> GameState -> Maybe GameState
-transformGameState' ev controls gs = transformGameState'' gs $ toGameEvent ev controls
+transformGameState' :: S.Event -> Controls -> GameState -> Maybe GameState
+transformGameState' ev controls gs =
+    case toEventDefaultControl ev controls of
+        Just e -> transformGameState'' gs e
+        Nothing -> Just gs
 
-transformGameState :: [Event] -> Controls -> GameState -> Maybe GameState
+transformGameState :: [S.Event] -> Controls -> GameState -> Maybe GameState
 transformGameState evs controls gs =
     foldl (\mst e -> mst >>= \st -> transformGameState' e controls st) (Just gs) evs
 

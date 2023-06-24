@@ -1,4 +1,4 @@
-module Menu.Model.MenuOption.MenuOptionButton (MenuOptionButton(..)) where
+module Menu.Model.MenuOption.MenuOptionButton (MenuOptionButton (..)) where
 
 import Render.Renderable (Renderable (..))
 
@@ -9,8 +9,8 @@ data MenuOptionButton = MenuOptionButton
     , targetMenu :: Int
     , button :: Button
     }
-
+    deriving (Eq)
 
 instance Renderable MenuOptionButton where
-  render m r gr =
-    render (button m) r gr
+    render m r gr =
+        render (button m) r gr

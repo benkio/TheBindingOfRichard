@@ -1,7 +1,7 @@
 module Graphics.Button (Button (..), buildButton) where
 
 import Foreign.C.Types (CInt)
-import Graphics.Color (Color (..))
+import Graphics.Color (Color (..), greenColor)
 import Graphics.Point (Point (..))
 import Graphics.Rectangle (Rectangle (..), drawRectangle)
 import qualified Graphics.Text as T (Text (..))
@@ -10,12 +10,15 @@ import Render.Renderable (Renderable (..))
 data Button = Button
     { rectangle :: Rectangle
     , text :: T.Text
+    , selected :: Bool
     }
+    deriving (Eq)
 
 buildButton :: Point -> (CInt, CInt) -> Color -> Color -> FilePath -> String -> Button
 buildButton p (bw, bh) bc tc fl tv =
     Button
-        { rectangle =
+        { selected = False
+        , rectangle =
             Rectangle
                 { topLeftCorner = p
                 , width = bw
@@ -42,5 +45,7 @@ buildButton p (bw, bh) bc tc fl tv =
 -- TODO: Implement
 instance Renderable Button where
     render b r gr = do
-      drawRectangle r (rectangle b)
-      render (text b) r gr
+        drawRectangle r rect
+        render (text b) r gr
+      where
+        rect = if selected b then (rectangle b){borderColor = Just greenColor} else rectangle b

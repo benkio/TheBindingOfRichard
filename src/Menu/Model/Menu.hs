@@ -1,10 +1,8 @@
-module Menu.Model.Menu (Menu (..)) where
+module Menu.Model.Menu (Menu (..), menuOptionIds, changeSelectedOption, getSelectedOptionId) where
 
-import SDL (Event, keysymKeycode)
-
-import Settings.Controls (Controls (..))
 import Control.Lens
 import Control.Monad (unless)
+import Data.List (find)
 import qualified Data.Map as M (lookup)
 import Graphics.Color (whiteColor)
 import Graphics.Point (Point (..))
@@ -19,20 +17,30 @@ import Init.GameResources (
     gameResourcesGameResourceImagesL,
     gameResourcesGameResourceMusicL,
  )
-import Menu.Model.MenuOption (MenuOption)
+import Menu.Model.MenuOption (MenuOption, isSelected, menuOptionId, select)
 import Render.Renderable (Renderable (..))
-import SDL (present)
 import qualified SDL.Mixer as Mix
 import Text.Printf
 import Prelude hiding (lookup)
 
 data Menu = Menu
-    { menuId :: Int
-    , options :: [MenuOption]
+    { options :: [MenuOption]
     , title :: Text
     , menuBackgroundImageLocation :: String
     , menuBackgroundMusicLocation :: String
     }
+    deriving (Eq)
+
+menuOptionIds :: Menu -> [Int]
+menuOptionIds = fmap menuOptionId . options
+
+changeSelectedOption :: Menu -> Int -> Menu
+changeSelectedOption m moid =
+    m
+        { options = fmap (\mo -> if menuOptionId mo == moid then select mo True else select mo False) (options m)
+        }
+getSelectedOptionId :: Menu -> Int
+getSelectedOptionId = maybe 0 menuOptionId . find isSelected . options
 
 instance Renderable Menu where
     render
@@ -64,19 +72,6 @@ instance Renderable Menu where
             render t renderer gr
             -- Render Options
             mapM_ (\o -> render o renderer gr) ops
-            present renderer
           where
             mbgit = M.lookup bgi $ view (gameResourcesGameResourceImagesL . gameResourceImagesTexturesL) gr
             mbgm = M.lookup bgm $ view (gameResourcesGameResourceMusicL . gameResourceMusicBackgroundMusicL) gr
-
--- TODO: before implementing this, refactor the game event and move: move them to top level since those will be used by both menus and in the game
-transformMenu'' :: Menu -> GameEvent -> Maybe Menu
-transformMenu'' gs (GE move) = undefined
-transformMenu'' _ Quit = Nothing
-
-transformMenu' :: Event -> Controls -> Menu -> Maybe Menu
-transformMenu' ev controls gs = transformMenu'' gs $ toGameEvent ev controls
-
-transformMenu :: [Event] -> Controls -> Menu -> Maybe Menu
-transformMenu evs controls m =
-    foldl (\mm e -> mm >>= \st -> transformMenu' e controls st) (Just m) evs
