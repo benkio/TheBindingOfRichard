@@ -6,7 +6,8 @@ import qualified Init.GameResources as GR (GameResources (..), cleanup, loadGame
 import SDL (initializeAll)
 import SDL.Framerate (Manager, destroyManager, manager, set)
 import qualified SDL.Init as Init (quit)
-import SDL.Video (Renderer)
+import SDL.Video (Renderer,rendererDrawBlendMode, BlendMode(..))
+import Data.StateVar (($=))
 
 data GameSetup = GameSetup
     { renderer :: Renderer
@@ -19,6 +20,7 @@ withGameSetup :: (GameSetup -> IO ()) -> IO ()
 withGameSetup gameLoop = do
     initializeAll
     (_, r) <- W.initializeWindow
+    rendererDrawBlendMode r $= BlendAlphaBlend
     ws <- W.windowSize
 
     m <- manager

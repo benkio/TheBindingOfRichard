@@ -16,7 +16,7 @@ import Init.GameResources (
     gameResourcesGameResourceImagesL,
     gameResourcesGameResourceMusicL,
  )
-import Menu.Model.MenuOption (MenuOption, isSelected, menuOptionId, select)
+import Menu.Model.MenuOption (MenuOption, isSelected, menuOptionId, select, flatMenuOptions)
 import Render.Renderable (Renderable (..))
 import qualified SDL.Mixer as Mix
 import Text.Printf
@@ -36,10 +36,10 @@ menuOptionIds = fmap menuOptionId . options
 changeSelectedOption :: Menu -> Int -> Menu
 changeSelectedOption m moid =
     m
-        { options = fmap (\mo -> if menuOptionId mo == moid then select mo True else select mo False) (options m)
+        { options = (fmap (\mo -> if menuOptionId mo == moid then select mo True else select mo False) . concatMap flatMenuOptions . options) m
         }
 getSelectedOptionId :: Menu -> Int
-getSelectedOptionId = maybe 0 menuOptionId . find isSelected . options
+getSelectedOptionId = maybe 0 menuOptionId . find isSelected . concatMap flatMenuOptions . options
 
 instance Renderable Menu where
     render
