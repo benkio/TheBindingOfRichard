@@ -28,7 +28,7 @@ run =
 appLoop :: GameSetup -> GameState -> IO ()
 appLoop gameSetup state = do
     events <- pollEvents
-    --TODO: move the music stuff inside the game state and add this to the render function
+    -- TODO: move the music stuff inside the game state and add this to the render function
     somethingPlaying <- Mix.playing Mix.AllChannels
     unless somethingPlaying $ Mix.play ((snd . head . M.toList . view (gameResourcesGameResourceMusicL . gameResourceMusicBackgroundMusicL) . gameResources) gameSetup) -- TODO: make this random when have multiple background music. move the background music to the selected level and start it on render!
     let maybeNewState = transformGameState events defaultControls state

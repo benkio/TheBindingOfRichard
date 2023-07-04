@@ -1,13 +1,13 @@
 module Init.GameSetup (GameSetup (..), withGameSetup) where
 
+import Data.StateVar (($=))
 import Foreign.C.Types (CInt)
 import qualified Graphics.Window as W (initializeWindow, windowSize)
 import qualified Init.GameResources as GR (GameResources (..), cleanup, loadGameResources)
 import SDL (initializeAll)
 import SDL.Framerate (Manager, destroyManager, manager, set)
 import qualified SDL.Init as Init (quit)
-import SDL.Video (Renderer,rendererDrawBlendMode, BlendMode(..))
-import Data.StateVar (($=))
+import SDL.Video (BlendMode (..), Renderer, rendererDrawBlendMode)
 
 data GameSetup = GameSetup
     { renderer :: Renderer

@@ -1,17 +1,18 @@
 module Menu.MenuState (MenuState (..), transformMenuState, initialMenu) where
 
+import Graphics.Color (Color (..), greenColor)
 
-import SDL (present)
 import qualified Graphics.Rectangle as GR (Rectangle (..))
+import SDL (present)
 
 import Foreign.C.Types (CInt)
-import Graphics.Button (buildButton)
-import Graphics.Color (Color(..), blackColor, lightBrownColor, whiteColor)
+import Graphics.Button (Button (..), buildButton)
+import Graphics.Color (blackColor, lightBrownColor, whiteColor)
 import Graphics.Point (Point (..))
 import qualified Graphics.Text as GT (Text (..))
 import Graphics.Window (windowToBlack)
 import Menu.Model.Menu (Menu (..), changeSelectedOption, getSelectedOptionId, menuOptionIds)
-import Menu.Model.MenuOption (MenuOption (..), Panel(..), select)
+import Menu.Model.MenuOption (MenuOption (..), Panel (..))
 import Menu.Model.MenuOption.MenuOptionButton (MenuOptionButton (..))
 import Model.Event (Event (..), toEventDefaultControl)
 import Model.Move (Move (..))
@@ -23,10 +24,11 @@ newtype MenuState = MenuState {menu :: Menu} deriving (Eq, Show)
 
 transformMenuState'' :: MenuState -> Event -> Maybe MenuState
 transformMenuState'' (MenuState{menu = m}) (GE move)
-    | move == Up && (soid - 1) `elem` (menuOptionIds m) = Just $ MenuState{menu = changeSelectedOption m (soid - 1)}
-    | move == Down && (soid + 1) `elem` (menuOptionIds m) = Just $ MenuState{menu = changeSelectedOption m (soid + 1)}
+    | move == Up && (soid - 1) `elem` (concatMap menuOptionIds ops) = Just $ MenuState{menu = changeSelectedOption m (soid - 1)}
+    | move == Down && (soid + 1) `elem` (concatMap menuOptionIds ops) = Just $ MenuState{menu = changeSelectedOption m (soid + 1)}
     | otherwise = Just (MenuState{menu = m})
   where
+    ops = options m
     soid = getSelectedOptionId m
 transformMenuState'' _ Quit = Nothing
 transformMenuState'' _ Interact = Nothing
@@ -41,22 +43,20 @@ transformMenuState :: [S.Event] -> Controls -> MenuState -> Maybe MenuState
 transformMenuState evs controls ms =
     foldl (\acc e -> acc >>= \st -> transformMenuState' e controls st) (Just ms) evs
 
+-- TODO: lenses
 initialMenu :: (CInt, CInt) -> MenuState
 initialMenu (windowWidth, windowHeight) =
     MenuState
         { menu =
             Menu
                 { options =
-                    [ select
-                        ( MOB
-                            ( MenuOptionButton
-                                { menuOptionId = 0
-                                , targetMenu = 1
-                                , button = buildButton (Point{x = wws * 10, y = whs * 20}) (wws * 30, whs * 10) lightBrownColor blackColor "./font/Impact.ttf" "New Game"
-                                }
-                            )
+                    [ MOB
+                        ( MenuOptionButton
+                            { menuOptionId = 0
+                            , targetMenu = 1
+                            , button = (\b -> b{selected = True, rectangle = (rectangle b){GR.borderColor = Just greenColor}}) (buildButton (Point{x = wws * 10, y = whs * 20}) (wws * 30, whs * 10) lightBrownColor blackColor "./font/Impact.ttf" "New Game")
+                            }
                         )
-                        True
                     , MOB
                         ( MenuOptionButton
                             { menuOptionId = 1
@@ -80,9 +80,8 @@ initialMenu (windowWidth, windowHeight) =
                         )
                     , MOP
                         ( Panel
-                            {
-                              panelRectangle = GR.Rectangle { GR.topLeftCorner = Point{x = wws * 50, y = whs * 20}, GR.width = wws * 50, GR.height = whs * 50, GR.fillColor = blackColor {alpha = 100}, GR.borderColor = Nothing}
-                            ,  contents = []
+                            { panelRectangle = GR.Rectangle{GR.topLeftCorner = Point{x = wws * 50, y = whs * 20}, GR.width = wws * 50, GR.height = whs * 50, GR.fillColor = blackColor{alpha = 100}, GR.borderColor = Nothing}
+                            , contents = []
                             }
                         )
                     ]

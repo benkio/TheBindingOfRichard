@@ -2,7 +2,6 @@ module Menu.Model.Menu (Menu (..), menuOptionIds, changeSelectedOption, getSelec
 
 import Control.Lens
 import Control.Monad (unless)
-import Data.List (find)
 import qualified Data.Map as M (lookup)
 import Graphics.Color (whiteColor)
 import Graphics.Point (Point (..))
@@ -16,7 +15,8 @@ import Init.GameResources (
     gameResourcesGameResourceImagesL,
     gameResourcesGameResourceMusicL,
  )
-import Menu.Model.MenuOption (MenuOption, isSelected, menuOptionId, select, flatMenuOptions)
+import Menu.Model.MenuOption (MenuOption, menuOptionIds, select)
+import qualified Menu.Model.MenuOption as MO (getSelectedOptionId)
 import Render.Renderable (Renderable (..))
 import qualified SDL.Mixer as Mix
 import Text.Printf
@@ -30,16 +30,11 @@ data Menu = Menu
     }
     deriving (Eq, Show)
 
-menuOptionIds :: Menu -> [Int]
-menuOptionIds = fmap menuOptionId . options
-
 changeSelectedOption :: Menu -> Int -> Menu
-changeSelectedOption m moid =
-    m
-        { options = (fmap (\mo -> if menuOptionId mo == moid then select mo True else select mo False) . concatMap flatMenuOptions . options) m
-        }
+changeSelectedOption m moid = m{options = (fmap (`select` moid) . options) m}
+
 getSelectedOptionId :: Menu -> Int
-getSelectedOptionId = maybe 0 menuOptionId . find isSelected . concatMap flatMenuOptions . options
+getSelectedOptionId = MO.getSelectedOptionId . options
 
 instance Renderable Menu where
     render
