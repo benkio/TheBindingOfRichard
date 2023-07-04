@@ -57,6 +57,7 @@ dependencies:
 - vector
 - data-default-class
 - text
+- StateVar
 # - random
 
 library:
