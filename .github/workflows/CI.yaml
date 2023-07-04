@@ -48,7 +48,7 @@ jobs:
         sudo apt-get install -y libsdl2-image-dev
         sudo apt-get install -y libsdl2-gfx-dev
     - name: Unit Test
-      run: stack test
+      run: stack --no-nix test
 
   hlint:
     runs-on: ubuntu-latest
