@@ -1,9 +1,9 @@
 {-# LANGUAGE LambdaCase #-}
 
-module Game.Model.MoveSpec (moveSpec) where
+module Model.MoveSpec (moveSpec) where
 
-import qualified Game.Model.Move as M
 import Graphics.Point (Point (..))
+import qualified Model.Move as M
 import Test.HUnit
 
 moveSpec :: Test
@@ -25,7 +25,6 @@ testMovePoint =
                         M.Down -> point{y = y point + M.stepSize}
                         M.Left -> point{x = x point - M.stepSize}
                         M.Right -> point{x = x point + M.stepSize}
-                        M.Rest -> point
                     )
                     move
          in assertEqual "PointMoved to the right position" actual expected

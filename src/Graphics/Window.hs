@@ -17,11 +17,12 @@ windowSize = do
     return (x, y)
 
 initializeWindow :: IO (Window, Renderer)
-initializeWindow = do
-    (windowWidth, windowHeight) <- windowSize
-    window <- createWindow "TheBindingOfRichard" defaultWindow{windowInitialSize = V2 windowWidth windowHeight}
-    renderer <- createRenderer window (-1) defaultRenderer
-    return (window, renderer)
+initializeWindow =
+    do
+        (windowWidth, windowHeight) <- windowSize
+        window <- createWindow "TheBindingOfRichard" defaultWindow{windowInitialSize = V2 windowWidth windowHeight}
+        renderer <- createRenderer window (-1) defaultRenderer
+        return (window, renderer)
 
 windowToBlack :: Renderer -> IO ()
 windowToBlack renderer = do

@@ -1,4 +1,4 @@
-module Game.Model.Move (Move (..), movePoint, stepSize) where
+module Model.Move (Move (..), movePoint, stepSize) where
 
 import Foreign.C.Types (CInt)
 import Graphics.Point (Point (..))
@@ -9,7 +9,6 @@ data Move
     | Down
     | Left
     | Right
-    | Rest
     deriving (Show, Enum, Eq)
 
 stepSize :: CInt

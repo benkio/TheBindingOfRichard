@@ -6,9 +6,9 @@ import Control.Lens
 import Control.Monad (unless, when)
 import qualified Data.Map as M (toList)
 import Game.GameState (GameState (..), transformGameState)
-import Game.Init.GameResources (gameResourceMusicBackgroundMusicL, gameResourcesGameResourceMusicL)
-import Game.Init.GameSetup (GameSetup (..), withGameSetup)
 import Game.Level.Level1 (gameState)
+import Init.GameResources (gameResourceMusicBackgroundMusicL, gameResourcesGameResourceMusicL)
+import Init.GameSetup (GameSetup (..), withGameSetup)
 import Render.Renderable
 import SDL (pollEvents)
 import SDL.Framerate (delay_)
@@ -28,11 +28,11 @@ run =
 appLoop :: GameSetup -> GameState -> IO ()
 appLoop gameSetup state = do
     events <- pollEvents
+    -- TODO: move the music stuff inside the game state and add this to the render function
     somethingPlaying <- Mix.playing Mix.AllChannels
-    unless somethingPlaying $ Mix.play ((snd . head . M.toList . view (gameResourcesGameResourceMusicL . gameResourceMusicBackgroundMusicL) . gameResources) gameSetup) -- TODO: make this random when have multiple background music
+    unless somethingPlaying $ Mix.play ((snd . head . M.toList . view (gameResourcesGameResourceMusicL . gameResourceMusicBackgroundMusicL) . gameResources) gameSetup) -- TODO: make this random when have multiple background music. move the background music to the selected level and start it on render!
     let maybeNewState = transformGameState events defaultControls state
 
-    -- TODO: if Nothing don't render the gamestate but loop, otherwise render. On GameExit return Unit
     maybe
         (pure ())
         ( \newState -> do

@@ -51,10 +51,13 @@ dependencies:
 - sdl2-gfx
 - sdl2-image
 - sdl2-mixer
+- sdl2-ttf
 - lens
 - containers
 - vector
 - data-default-class
+- text
+- StateVar
 # - random
 
 library:

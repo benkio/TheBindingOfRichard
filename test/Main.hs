@@ -1,9 +1,9 @@
 module Main (main) where
 
-import Game.GameEventSpec (gameEventSpec)
 import Game.GameStateSpec (gameStateSpec)
-import Game.Model.MoveSpec (moveSpec)
 import Game.Physics.CollisionDetectionSpec (collisionDetectionSpec)
+import Model.EventSpec (gameEventSpec)
+import Model.MoveSpec (moveSpec)
 import Test.HUnit
 
 -- Run the tests
