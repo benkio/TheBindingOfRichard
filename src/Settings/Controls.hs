@@ -13,4 +13,5 @@ defaultControls =
         , ('←', KeycodeLeft)
         , ('→', KeycodeRight)
         , ('q', KeycodeQ)
+        , ('⎆', KeycodeReturn)
         ]

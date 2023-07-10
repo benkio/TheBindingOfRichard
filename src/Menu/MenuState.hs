@@ -6,6 +6,7 @@ import qualified Graphics.Rectangle as GR (Rectangle (..))
 import SDL (present)
 
 import Foreign.C.Types (CInt)
+import Game.GameMain (run)
 import Graphics.Button (Button (..), buildButton)
 import Graphics.Color (blackColor, lightBrownColor, whiteColor)
 import Graphics.Point (Point (..))
@@ -15,33 +16,41 @@ import Menu.Model.Menu (Menu (..), changeSelectedOption, getSelectedOptionId, me
 import Menu.Model.MenuOption (MenuOption (..), Panel (..))
 import Menu.Model.MenuOption.MenuOptionButton (MenuOptionButton (..))
 import Model.Event (Event (..), toEventDefaultControl)
-import Model.Move (Move (..))
+import qualified Model.Move as M (Move (..))
 import Render.Renderable (Renderable (..))
 import qualified SDL as S (Event)
 import Settings.Controls (Controls)
 
 newtype MenuState = MenuState {menu :: Menu} deriving (Eq, Show)
 
-transformMenuState'' :: MenuState -> Event -> Maybe MenuState
+type MenuStateResult = Either (IO ()) MenuState
+
+transformMenuState'' :: MenuState -> Event -> MenuStateResult
 transformMenuState'' (MenuState{menu = m}) (GE move)
-    | move == Up && (soid - 1) `elem` (concatMap menuOptionIds ops) = Just $ MenuState{menu = changeSelectedOption m (soid - 1)}
-    | move == Down && (soid + 1) `elem` (concatMap menuOptionIds ops) = Just $ MenuState{menu = changeSelectedOption m (soid + 1)}
-    | otherwise = Just (MenuState{menu = m})
+    | move == M.Up && (soid - 1) `elem` (concatMap menuOptionIds ops) = Right $ MenuState{menu = changeSelectedOption m (soid - 1)}
+    | move == M.Down && (soid + 1) `elem` (concatMap menuOptionIds ops) = Right $ MenuState{menu = changeSelectedOption m (soid + 1)}
+    | otherwise = Right (MenuState{menu = m})
   where
     ops = options m
     soid = getSelectedOptionId m
-transformMenuState'' _ Quit = Nothing
-transformMenuState'' _ Interact = Nothing
+transformMenuState'' _ Quit = Left $ pure ()
+transformMenuState'' ms Interact = optionMenuHandler soid ms
+  where
+    soid = (getSelectedOptionId . menu) ms
 
-transformMenuState' :: S.Event -> Controls -> MenuState -> Maybe MenuState
+transformMenuState' :: S.Event -> Controls -> MenuState -> MenuStateResult
 transformMenuState' ev controls ms =
     case toEventDefaultControl ev controls of
         Just e -> transformMenuState'' ms e
-        Nothing -> Just ms
+        Nothing -> Right ms
 
-transformMenuState :: [S.Event] -> Controls -> MenuState -> Maybe MenuState
-transformMenuState evs controls ms =
-    foldl (\acc e -> acc >>= \st -> transformMenuState' e controls st) (Just ms) evs
+transformMenuState :: [S.Event] -> Controls -> MenuState -> MenuStateResult
+transformMenuState [] _ ms = Right ms
+transformMenuState (ev : evs) controls ms = case r of
+    Right ms' -> transformMenuState evs controls ms'
+    _ -> r
+  where
+    r = transformMenuState' ev controls ms
 
 -- TODO: lenses
 initialMenu :: (CInt, CInt) -> MenuState
@@ -80,7 +89,14 @@ initialMenu (windowWidth, windowHeight) =
                         )
                     , MOP
                         ( Panel
-                            { panelRectangle = GR.Rectangle{GR.topLeftCorner = Point{x = wws * 50, y = whs * 20}, GR.width = wws * 50, GR.height = whs * 50, GR.fillColor = blackColor{alpha = 100}, GR.borderColor = Nothing}
+                            { panelRectangle =
+                                GR.Rectangle
+                                    { GR.topLeftCorner = Point{x = wws * 50, y = whs * 20}
+                                    , GR.width = wws * 50
+                                    , GR.height = whs * 50
+                                    , GR.fillColor = blackColor{alpha = 100}
+                                    , GR.borderColor = Nothing
+                                    }
                             , contents = []
                             }
                         )
@@ -101,6 +117,11 @@ initialMenu (windowWidth, windowHeight) =
   where
     wws = windowWidth `div` 100
     whs = windowHeight `div` 100
+
+optionMenuHandler :: Int -> MenuState -> MenuStateResult
+optionMenuHandler 0 _ = Left $ run
+optionMenuHandler 3 _ = Left $ pure ()
+optionMenuHandler _ ms = Right ms
 
 instance Renderable MenuState where
     render (MenuState{menu = m}) renderer gr = do

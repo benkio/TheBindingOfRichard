@@ -17,16 +17,16 @@ run =
         )
 
 menuLoop :: GameSetup -> MenuState -> IO ()
-menuLoop gameSetup state = do
-    evs <- pollEvents
-    let maybeNewState = transformMenuState evs defaultControls state
-
-    maybe
-        (pure ())
-        ( \newState -> do
-            -- if newState /= state then putStrLn (show newState) else pure ()
-            when (newState /= state) $ render newState (renderer gameSetup) (gameResources gameSetup)
-            delay_ (framerateManager gameSetup)
-            menuLoop gameSetup newState
-        )
-        maybeNewState
+menuLoop gameSetup state =
+    do
+        evs <- pollEvents
+        let stateResult = transformMenuState evs defaultControls state
+        either
+            id
+            ( \newState -> do
+                -- if newState /= state then putStrLn (show newState) else pure ()
+                when (newState /= state) $ render newState (renderer gameSetup) (gameResources gameSetup)
+                delay_ (framerateManager gameSetup)
+                menuLoop gameSetup newState
+            )
+            stateResult

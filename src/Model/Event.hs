@@ -17,6 +17,7 @@ toEventDefaultControl event controls
     | eventIsKeyPressed (M.lookup '←' controls) event = Just $ GE M.Left
     | eventIsKeyPressed (M.lookup '→' controls) event = Just $ GE M.Right
     | eventIsKeyPressed (M.lookup 'q' controls) event || eventIsCloseWindow event = Just Quit
+    | eventIsKeyPressed (M.lookup '⎆' controls) event = Just Interact
     | otherwise = Nothing
 
 eventIsKeyPressed :: Maybe Keycode -> S.Event -> Bool
