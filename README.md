@@ -1,3 +1,16 @@
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [The Binding Of Richard](#the-binding-of-richard)
+    - [Nix Integration](#nix-integration)
+    - [Prerequisites](#prerequisites)
+        - [SDL2 on Mac](#sdl2-on-mac)
+    - [Compiling](#compiling)
+    - [Testing](#testing)
+    - [Running](#running)
+
+<!-- markdown-toc end -->
+
 # The Binding Of Richard
 
 Game with Richard Benson as main character inspired by 2d platform games such as: `the binding of Isaac`, `pokemon`...
